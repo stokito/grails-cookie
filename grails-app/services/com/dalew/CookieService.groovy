@@ -1,11 +1,14 @@
 package com.dalew
 
 import javax.servlet.http.Cookie
+import org.codehaus.groovy.grails.web.util.WebUtils
 import org.springframework.web.context.request.RequestContextHolder
 
 class CookieService {
 
     boolean transactional = false
+	
+	def grailsApplication
 	
 	/* Gets the value of the named cookie.  Returns null if does not exist */
     
@@ -38,10 +41,13 @@ class CookieService {
 
     /** ***********************************************************/
 	
-	private void setCookie(response,name,value,maxAge) {
+	private void setCookie(name,value,Integer age = null) {
+		age = age ?: grailsApplication.config.cookieage ?: 2592000 // default 30 days
 		Cookie cookie = new Cookie(name, value)
-        cookie.setMaxAge(maxAge)
-        response.addCookie(cookie)
+		cookie.setPath('/')
+        cookie.setMaxAge(age)
+        WebUtils.retrieveGrailsWebRequest().getCurrentResponse().addCookie(cookie)
+		log.info "cookie added: ${name} = ${value}"
     }
 	
 	/** ***********************************************************/
