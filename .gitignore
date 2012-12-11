@@ -1,0 +1,17 @@
+.link_to_grails_plugins
+.settings
+.classpath
+.project
+target
+target-eclipse
+/web-app/WEB-INF
+*.class
+*.zip
+plugin.xml
+*.log
+*plugin.xml
+*.pom
+*.md5
+*.sha1
+.idea
+*.iml
