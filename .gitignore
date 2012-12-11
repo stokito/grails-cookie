@@ -1,7 +1,5 @@
 .link_to_grails_plugins
 .settings
-.classpath
-.project
 target
 target-eclipse
 /web-app/WEB-INF
