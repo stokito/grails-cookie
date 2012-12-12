@@ -79,7 +79,9 @@ cookieService.get('username') // returns 'cookieUser123'
 
 Deleting the cookie:
 
-```cookieService.delete('username') // deletes the 'username' cookie```
+```
+cookieService.delete('username') // deletes the 'username' cookie
+```
 
 ## Tag Lib
 
