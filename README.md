@@ -4,11 +4,15 @@ This plugin makes dealing with cookies easy.  Provides an injectable service and
 
 To install the cookie plug-in just add to BuildConfig.groovy:
 
-```compile ':cookie:0.3'```
+```
+compile ':cookie:0.3'
+```
 
 Or install via command line:
 
-```grails install-plugin cookie```
+```
+grails install-plugin cookie
+```
 
 ## Configuration
 
@@ -23,19 +27,27 @@ The cookie plug-in extends the request and response objects found in controllers
 
 Example of setting a new cookie: (this sets a cookie with the name "username" to the value "cookieUser123" with a expiration set to a week, defined in seconds)
 
-```response.setCookie("username","cookieUser123",604800)```
+```
+response.setCookie("username","cookieUser123",604800)
+```
 
 OR
 
-```response.setCookie("username","cookieUser123")// will use default age in Config (or 30 days if not defined)```
+```
+response.setCookie("username","cookieUser123")// will use default age in Config (or 30 days if not defined)
+```
 
 To get the cookie value:
 
-```request.getCookie("username") // returns "cookieUser123"```
+```
+request.getCookie("username") // returns "cookieUser123"
+```
 
 To delete the cookie:
 
-```response.deleteCookie("username") // deletes the "username" cookie```
+```
+response.deleteCookie("username") // deletes the "username" cookie
+```
 
 ## Usage by calling CookieService directly
 
@@ -43,19 +55,27 @@ The cookie plug-in provides a CookieService that can be used anywhere in your Gr
 
 To use CookieService, declare a dependency injection:
 
-```def cookieService```
+```
+def cookieService
+```
 
 Setting a new cookie:
 
-```cookieService.set("username","cookieUser123",604800)```
+```
+cookieService.set("username","cookieUser123",604800)
+```
 
 OR
 
-```cookieService.setCookie("username","cookieUser123")// will use default age in Config (or 30 days if not defined)```
+```
+cookieService.setCookie("username","cookieUser123")// will use default age in Config (or 30 days if not defined)
+```
 
 Getting the cookie value:
 
-```cookieService.get("username") // returns "cookieUser123"```
+```
+cookieService.get("username") // returns "cookieUser123"
+```
 
 Deleting the cookie:
 
@@ -65,7 +85,9 @@ Deleting the cookie:
 
 You can also get a cookie value with a tag:
 
-```<cookie:get name='username' />```
+```
+<cookie:get name='username' />
+```
 
 ## Notes
 
