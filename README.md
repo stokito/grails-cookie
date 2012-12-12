@@ -5,7 +5,7 @@ This plugin makes dealing with cookies easy.  Provides an injectable service and
 To install the cookie plug-in just add to BuildConfig.groovy:
 
 ```
-compile ':cookie:0.3'
+compile ':cookie:0.4'
 ```
 
 Or install via command line:
@@ -25,28 +25,28 @@ grails.plugins.cookie.cookieage.default = 86400 // if not specified default in c
 
 The cookie plug-in extends the request and response objects found in controllers, filters, etc to allow the following:
 
-Example of setting a new cookie: (this sets a cookie with the name "username" to the value "cookieUser123" with a expiration set to a week, defined in seconds)
+Example of setting a new cookie: (this sets a cookie with the name 'username' to the value 'cookieUser123' with a expiration set to a week, defined in seconds)
 
 ```
-response.setCookie("username","cookieUser123",604800)
+response.setCookie('username','cookieUser123',604800)
 ```
 
 OR
 
 ```
-response.setCookie("username","cookieUser123")// will use default age in Config (or 30 days if not defined)
+response.setCookie('username','cookieUser123')// will use default age in Config (or 30 days if not defined)
 ```
 
 To get the cookie value:
 
 ```
-request.getCookie("username") // returns "cookieUser123"
+request.getCookie('username') // returns 'cookieUser123'
 ```
 
 To delete the cookie:
 
 ```
-response.deleteCookie("username") // deletes the "username" cookie
+response.deleteCookie('username') // deletes the 'username' cookie
 ```
 
 ## Usage by calling CookieService directly
@@ -62,24 +62,24 @@ def cookieService
 Setting a new cookie:
 
 ```
-cookieService.set("username","cookieUser123",604800)
+cookieService.set('username','cookieUser123',604800)
 ```
 
 OR
 
 ```
-cookieService.setCookie("username","cookieUser123")// will use default age in Config (or 30 days if not defined)
+cookieService.setCookie('username','cookieUser123')// will use default age in Config (or 30 days if not defined)
 ```
 
 Getting the cookie value:
 
 ```
-cookieService.get("username") // returns "cookieUser123"
+cookieService.get('username') // returns 'cookieUser123'
 ```
 
 Deleting the cookie:
 
-```cookieService.delete("username") // deletes the "username" cookie```
+```cookieService.delete('username') // deletes the 'username' cookie```
 
 ## Tag Lib
 
