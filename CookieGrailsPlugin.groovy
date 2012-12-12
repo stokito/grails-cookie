@@ -1,6 +1,6 @@
 class CookieGrailsPlugin {
     // the plugin version
-    def version = "0.3"
+    def version = "0.4"
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "2.1 > *"
     // the other plugins this plugin depends on
@@ -22,7 +22,7 @@ Makes dealing with cookies easy.  Provides an injectable service and tag to easi
 	def observe = ['controllers']
 
     // URL to the plugin's documentation
-    def documentation = "http://grails.org/plugin/cookie"
+    def documentation = "https://github.com/dalew75/grails-cookie"
 
     // Extra (optional) plugin metadata
 
