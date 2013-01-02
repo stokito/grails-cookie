@@ -17,7 +17,7 @@ class CookieService {
      * @return Returns null if does not exist
      */
     String getCookieValue(String name) {
-        String cookieValue = getCookie(name)?.value
+        String cookieValue = findCookie(name)?.value
         if (cookieValue == null) {
             log.info "Found cookie \"${name}\", value = \"${cookieValue}\""
             return cookieValue
@@ -36,15 +36,19 @@ class CookieService {
         return getCookieValue(name)
     }
 
-    /** Gets the named cookie */
-    Cookie getCookie(String name) {
+    /**
+     * Gets the named cookie
+     * @return null if cookie not found
+     */
+    Cookie findCookie(String name) {
         assert name
         def cookies = WebUtils.retrieveGrailsWebRequest().currentRequest.getCookies()
         if (!cookies || !name) {
             return null
         }
         // Otherwise, we have to do a linear scan for the cookie.
-        return cookies.find { it.name == name };
+        Cookie cookie = cookies.find { it.name == name }
+        return cookie
     }
 
     /**
