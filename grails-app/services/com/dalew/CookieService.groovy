@@ -48,7 +48,7 @@ class CookieService {
     }
 
     /** Sets the cookie with name to value, with age in seconds */
-    void setCookieValue(String name, String value, Integer age = null) {
+    void setCookie(String name, String value, Integer age = null) {
         age = age ?: getDefaultCookieAge()
         log.info "Setting cookie \"${name}\" to: \"${value}\" with age: ${age} seconds"
         writeCookieToResponse(name, value, age)
@@ -56,10 +56,10 @@ class CookieService {
 
     /**
      * Sets the cookie with name to value, with age in seconds
-     * @deprecated Use {@link #setCookieValue(String, String, Integer)} instead
+     * @deprecated Use {@link #setCookie(String, String, Integer)} instead
      */
     void set(String name, String value, Integer age = null) {
-        setCookieValue(name, value, age)
+        setCookie(name, value, age)
     }
 
     int getDefaultCookieAge() {

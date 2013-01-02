@@ -75,7 +75,7 @@ Makes dealing with cookies easy.  Provides an injectable service and tag to easi
 			return cookieService.getCookieValue(name)
 		}
 		javax.servlet.http.HttpServletResponse.metaClass.setCookie = { String name, String value, Integer maxAge ->
-			return cookieService.setCookieValue(name, value, maxAge)
+			return cookieService.setCookie(name, value, maxAge)
 		}
 		javax.servlet.http.HttpServletResponse.metaClass.deleteCookie = { String name ->
 			return cookieService.deleteCookie(name)
