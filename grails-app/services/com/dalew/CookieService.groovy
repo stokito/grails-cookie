@@ -85,15 +85,15 @@ class CookieService {
     }
 
     int getDefaultCookieAge() {
-        return grailsApplication.config.grails.plugins.cookie.cookieage.default ?: DEFAULT_COOKIE_AGE
+        return grailsApplication.config.grails?.plugins?.cookie?.cookieage?.default ?: DEFAULT_COOKIE_AGE
     }
 
     /** Deletes the named cookie */
     void deleteCookie(String name) {
         assert name
         log.info "Removing cookie \"${name}\""
-        Cookie cookie1 = createCookie(name, null, 0)
-        writeCookieToResponse(cookie1)
+        Cookie cookie = createCookie(name, null, 0)
+        writeCookieToResponse(cookie)
     }
 
     /**
