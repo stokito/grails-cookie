@@ -19,7 +19,7 @@ class CookieService {
     String getCookie(String name) {
         assert name
         String cookieValue = findCookie(name)?.value
-        if (cookieValue == null) {
+        if (cookieValue != null) {
             log.info "Found cookie \"${name}\", value = \"${cookieValue}\""
             return cookieValue
         } else {
