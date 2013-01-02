@@ -11,10 +11,10 @@ class CookieTagLib {
      * Prints the value of a cookie.
      * Usage:
      * <code>
-     * <cookie:get name='username' />
+     * &lt;cookie:get name='username' /&gt;
      * </code>
      *
-     * @deprecated Is obsolete since we can use standard <g:cookie/>
+     * @deprecated Is obsolete since we can use standard &lt;g:cookie/&gt;
      * @emptyTag
      * @attr name REQUIRED the cookie name
      */
