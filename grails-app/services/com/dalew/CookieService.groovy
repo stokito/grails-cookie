@@ -62,9 +62,8 @@ class CookieService {
         assert name
         assert value != null
         maxAge = maxAge ?: getDefaultCookieAge()
-        log.info "Setting cookie \"${name}\" to: \"${value}\" with maxAge: ${maxAge} seconds"
         Cookie cookie = createCookie(name, value, maxAge)
-        writeCookieToResponse(cookie)
+        setCookie(cookie)
     }
 
     /**
