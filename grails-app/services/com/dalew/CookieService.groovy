@@ -51,7 +51,7 @@ class CookieService {
     void setCookieValue(String name, String value, Integer age = null) {
         age = age ?: getDefaultCookieAge()
         log.info "Setting cookie \"${name}\" to: \"${value}\" with age: ${age} seconds"
-        setCookie(name, value, age)
+        writeCookieToResponse(name, value, age)
     }
 
     /**
@@ -69,7 +69,7 @@ class CookieService {
     /** Deletes the named cookie */
     void deleteCookie(String name) {
         log.info "Removing cookie \"${name}\""
-        setCookie(name, null, 0)
+        writeCookieToResponse(name, null, 0)
     }
 
     /**
@@ -81,7 +81,7 @@ class CookieService {
     }
 
     /** Set or replace cookie */
-    private void setCookie(String name, String value, Integer age) {
+    private void writeCookieToResponse(String name, String value, Integer age) {
         Cookie cookie = new Cookie(name, value)
         cookie.setPath('/')
         cookie.setMaxAge(age)
