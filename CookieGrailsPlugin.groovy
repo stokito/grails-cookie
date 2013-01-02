@@ -1,3 +1,5 @@
+import javax.servlet.http.Cookie
+
 class CookieGrailsPlugin {
     /** the plugin version */
     def version = '0.5'
@@ -43,8 +45,14 @@ Makes dealing with cookies easy.  Provides an injectable service and tag to easi
         javax.servlet.http.HttpServletRequest.metaClass.getCookie = { String name ->
             return cookieService.getCookie(name)
         }
+        javax.servlet.http.HttpServletRequest.metaClass.findCookie = { String name ->
+            return cookieService.findCookie(name)
+        }
         javax.servlet.http.HttpServletResponse.metaClass.setCookie = { String name, String value, Integer maxAge = null ->
             return cookieService.setCookie(name, value, maxAge)
+        }
+        javax.servlet.http.HttpServletResponse.metaClass.setCookie = { Cookie cookie ->
+            return cookieService.setCookie(cookie)
         }
         javax.servlet.http.HttpServletResponse.metaClass.deleteCookie = { String name ->
             return cookieService.deleteCookie(name)
