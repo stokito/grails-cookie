@@ -9,14 +9,14 @@ class CookieService {
     private static final int DEFAULT_COOKIE_AGE = 2592000 // seconds
 
     boolean transactional = false
-	
+
 	def grailsApplication
-	
+
     /**
      * Gets the value of the named cookie.
      * @return Returns null if does not exist
      **/
-    String get(String name) {
+    String getCookieValue(String name) {
         String cookieValue = getCookie(name)?.value
         if (cookieValue == null) {
             log.info "Found cookie \"${name}\", value = \"${cookieValue}\""
@@ -25,6 +25,15 @@ class CookieService {
             log.info "No cookie found with name: \"${name}\""
             return null
         }
+    }
+
+    /**
+     * Gets the value of the named cookie.
+     * @return Returns null if does not exist
+     * @deprecated Use {@link #getCookieValue()} instead
+     **/
+    String get(String name) {
+        return getCookieValue(name)
     }
 
     /** Gets the named cookie */
