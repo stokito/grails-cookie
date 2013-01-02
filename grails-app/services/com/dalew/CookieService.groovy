@@ -6,7 +6,7 @@ import org.codehaus.groovy.grails.web.util.WebUtils
 class CookieService {
 
     /** Default cookie age is 30 days */
-    private static final int DEFAULT_COOKIE_AGE = 2592000
+    private static final int DEFAULT_COOKIE_AGE = 2592000 // seconds
 
     boolean transactional = false
 	
