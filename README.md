@@ -99,3 +99,6 @@ In the 0.3 release a big issue was fixed that now sets the cookie's path to the 
 Otherwise it was setting the path to the same as the controller/service that triggered it.
 Most users I believe will want this behavior.  If setting the path is desired, that can be accomodated.
 Please contact me or do a pull request if you'd like that.
+
+## Demo
+You can check out demo of this plugion here https://github.com/stokito/grails-cookie-demo
