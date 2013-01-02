@@ -42,7 +42,7 @@ class CookieService {
         return grailsApplication.config.grails.plugins.cookie.cookieage.default ?: DEFAULT_COOKIE_AGE
     }
 
-    /* Deletes the named cookie. */
+    /** Deletes the named cookie */
 	void delete(String name) {
         log.info "Removing cookie \"${name}\""
         setCookie(name,null,0)
