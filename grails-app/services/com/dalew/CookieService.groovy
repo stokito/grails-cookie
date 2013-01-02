@@ -30,7 +30,7 @@ class CookieService {
     /**
      * Gets the value of the named cookie.
      * @return Returns null if does not exist
-     * @deprecated Use {@link #getCookieValue()} instead
+     * @deprecated Use {@link #getCookieValue(String)} instead
      **/
     String get(String name) {
         return getCookieValue(name)
