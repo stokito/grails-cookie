@@ -5,6 +5,7 @@ import org.codehaus.groovy.grails.web.util.WebUtils
 import org.springframework.web.context.request.RequestContextHolder
 
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 class CookieService {
 
@@ -47,9 +48,8 @@ class CookieService {
         setCookie(name,null,0)
     }
 
-    /** ***********************************************************/
-	
-	private void setCookie(String name,String value,Integer age) {
+    /** Set or replace cookie */
+	private void setCookie(String name, String value, Integer age) {
 		Cookie cookie = new Cookie(name, value)
 		cookie.setPath('/')
         cookie.setMaxAge(age)
