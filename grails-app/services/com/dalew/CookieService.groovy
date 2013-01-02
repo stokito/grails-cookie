@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest
 
 class CookieService {
 
+    /** Default cookie age is 30 days */
+    private static final int DEFAULT_COOKIE_AGE = 2592000
+
     boolean transactional = false
 	
 	def grailsApplication
@@ -29,9 +32,13 @@ class CookieService {
 
     /** Sets the cookie with name to value, with age in seconds */
     void set(String name, String value, Integer age = null) {
-		age = age ?: grailsApplication.config.grails.plugins.cookie.cookieage.default ?: 2592000 // default 30 days
+		age = age ?: getDefaultCookieAge()
 		log.info "Setting cookie \"${name}\" to: \"${value}\" with age: ${age} seconds"
         setCookie(name, value, age)
+    }
+
+    int getDefaultCookieAge() {
+        return grailsApplication.config.grails.plugins.cookie.cookieage.default ?: DEFAULT_COOKIE_AGE
     }
 
     /* Deletes the named cookie. */
