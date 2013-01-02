@@ -4,6 +4,8 @@ import javax.servlet.http.Cookie
 import org.codehaus.groovy.grails.web.util.WebUtils
 import org.springframework.web.context.request.RequestContextHolder
 
+import javax.servlet.http.HttpServletRequest
+
 class CookieService {
 
     boolean transactional = false
@@ -47,22 +49,19 @@ class CookieService {
         WebUtils.retrieveGrailsWebRequest().getCurrentResponse().addCookie(cookie)
 		log.info "cookie added: ${name} = ${value}"
     }
-	
-	/** ***********************************************************/
-    
-	private Cookie getCookie(String name) {
-		assert name
-		
-        Cookie[] cookies = RequestContextHolder.currentRequestAttributes().request.getCookies()
-		
-		if ( cookies ) {
-			for (int i = 0; i < cookies.length; i++) {
-				if (cookies[i].getName().equals(name)) {
-					return cookies[i]
-				}
-			}
-		}
-		return null
-    }
 
+    /** Gets the named cookie */
+    Cookie getCookie(String name, HttpServletRequest request = null) {
+        assert name
+        if (!request) {
+            request = WebUtils.retrieveGrailsWebRequest().currentRequest
+        }
+        def cookies = request.getCookies()
+        if (!cookies || !name) {
+            return null
+        }
+        // Otherwise, we have to do a linear scan for the cookie.
+        return cookies.find { it.name == name };
+    }
+	
 }
