@@ -10,12 +10,12 @@ class CookieService {
 
     boolean transactional = false
 
-	def grailsApplication
+    def grailsApplication
 
     /**
      * Gets the value of the named cookie.
      * @return Returns null if does not exist
-     **/
+     */
     String getCookieValue(String name) {
         String cookieValue = getCookie(name)?.value
         if (cookieValue == null) {
@@ -31,7 +31,7 @@ class CookieService {
      * Gets the value of the named cookie.
      * @return Returns null if does not exist
      * @deprecated Use {@link #getCookieValue(String)} instead
-     **/
+     */
     String get(String name) {
         return getCookieValue(name)
     }
@@ -57,7 +57,7 @@ class CookieService {
     /**
      * Sets the cookie with name to value, with age in seconds
      * @deprecated Use {@link #setCookieValue(String, String, Integer)} instead
-     **/
+     */
     void set(String name, String value, Integer age = null) {
         setCookieValue(name, value, age)
     }
@@ -67,26 +67,26 @@ class CookieService {
     }
 
     /** Deletes the named cookie */
-	void deleteCookie(String name) {
+    void deleteCookie(String name) {
         log.info "Removing cookie \"${name}\""
-        setCookie(name,null,0)
+        setCookie(name, null, 0)
     }
 
     /**
      * Deletes the named cookie
      * @deprecated Use {@link #deleteCookie(String)} instead
-     **/
+     */
     void delete(String name) {
         deleteCookie(name)
     }
 
     /** Set or replace cookie */
-	private void setCookie(String name, String value, Integer age) {
-		Cookie cookie = new Cookie(name, value)
-		cookie.setPath('/')
+    private void setCookie(String name, String value, Integer age) {
+        Cookie cookie = new Cookie(name, value)
+        cookie.setPath('/')
         cookie.setMaxAge(age)
         WebUtils.retrieveGrailsWebRequest().getCurrentResponse().addCookie(cookie)
-		log.info "cookie added: ${name} = ${value}"
+        log.info "cookie added: ${name} = ${value}"
     }
 
 }
