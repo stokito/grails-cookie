@@ -101,4 +101,4 @@ Most users I believe will want this behavior.  If setting the path is desired, t
 Please contact me or do a pull request if you'd like that.
 
 ## Demo
-You can check out demo of this plugion here https://github.com/stokito/grails-cookie-demo
+You can check out demo here https://github.com/stokito/grails-cookie-demo
