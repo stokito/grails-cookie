@@ -13,9 +13,8 @@ class CookieGrailsPlugin {
     def author = 'Dale Wiggins'
     def authorEmail = 'dale@dalew.com'
     def title = 'Cookie Plugin'
-    def description = '''\\
-Makes dealing with cookies easy.  Provides an injectable service and tag to easily get, set, and delete cookies with one line
-'''
+    def description = 'Makes dealing with cookies easy. Provides an injectable service and expands request with methods to easily get, set, and delete cookies with one line'
+
     def cookieService = new com.dalew.CookieService()
 
     def observe = ['controllers']
@@ -24,7 +23,7 @@ Makes dealing with cookies easy.  Provides an injectable service and tag to easi
     def documentation = 'https://github.com/dalew75/grails-cookie'
 
     /** License: one of 'APACHE', 'GPL2', 'GPL3' */
-    def license = "APACHE"
+    def license = 'APACHE'
 
     /** Any additional developers beyond the author specified above. */
     def developers = [[name: 'Sergey Ponomarev', email: 'stokito@gmail.com']]
