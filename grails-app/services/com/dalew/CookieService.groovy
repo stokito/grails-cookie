@@ -67,6 +67,16 @@ class CookieService {
     }
 
     /**
+     * Sets the cookie
+     * @see #setCookie(String, String, Integer)
+     */
+    void setCookie(Cookie cookie) {
+        assert cookie
+        log.info "Setting cookie \"${cookie.name}\" to: \"${cookie.value}\" with maxAge: ${cookie.maxAge} seconds"
+        writeCookieToResponse(cookie)
+    }
+
+    /**
      * Sets the cookie with name to value, with age in seconds
      * @deprecated Use {@link #setCookie(String, String, Integer)} instead
      */
@@ -98,8 +108,12 @@ class CookieService {
         Cookie cookie = new Cookie(name, value)
         cookie.setPath('/')
         cookie.setMaxAge(maxAge)
+        writeCookieToResponse(cookie)
+    }
+
+    private void writeCookieToResponse(Cookie cookie) {
         WebUtils.retrieveGrailsWebRequest().getCurrentResponse().addCookie(cookie)
-        log.info "cookie added: ${name} = ${value}"
+        log.info "cookie added: ${cookie.name} = ${cookie.value}"
     }
 
 }
