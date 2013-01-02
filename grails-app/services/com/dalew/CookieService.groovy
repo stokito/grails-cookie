@@ -27,6 +27,17 @@ class CookieService {
         }
     }
 
+    /** Gets the named cookie */
+    Cookie getCookie(String name) {
+        assert name
+        def cookies = WebUtils.retrieveGrailsWebRequest().currentRequest.getCookies()
+        if (!cookies || !name) {
+            return null
+        }
+        // Otherwise, we have to do a linear scan for the cookie.
+        return cookies.find { it.name == name };
+    }
+
     /** Sets the cookie with name to value, with age in seconds */
     void set(String name, String value, Integer age = null) {
 		age = age ?: getDefaultCookieAge()
@@ -53,15 +64,4 @@ class CookieService {
 		log.info "cookie added: ${name} = ${value}"
     }
 
-    /** Gets the named cookie */
-    Cookie getCookie(String name) {
-        assert name
-        def cookies = WebUtils.retrieveGrailsWebRequest().currentRequest.getCookies()
-        if (!cookies || !name) {
-            return null
-        }
-        // Otherwise, we have to do a linear scan for the cookie.
-        return cookies.find { it.name == name };
-    }
-	
 }
