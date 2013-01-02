@@ -63,7 +63,8 @@ class CookieService {
         assert value != null
         maxAge = maxAge ?: getDefaultCookieAge()
         log.info "Setting cookie \"${name}\" to: \"${value}\" with maxAge: ${maxAge} seconds"
-        writeCookieToResponse(name, value, maxAge)
+        Cookie cookie = createCookie(name, value, maxAge)
+        writeCookieToResponse(cookie)
     }
 
     /**
@@ -92,7 +93,8 @@ class CookieService {
     void deleteCookie(String name) {
         assert name
         log.info "Removing cookie \"${name}\""
-        writeCookieToResponse(name, null, 0)
+        Cookie cookie1 = createCookie(name, null, 0)
+        writeCookieToResponse(cookie1)
     }
 
     /**
@@ -103,12 +105,11 @@ class CookieService {
         deleteCookie(name)
     }
 
-    /** Set or replace cookie */
-    private void writeCookieToResponse(String name, String value, Integer maxAge) {
+    private Cookie createCookie(String name, String value, int maxAge) {
         Cookie cookie = new Cookie(name, value)
         cookie.setPath('/')
         cookie.setMaxAge(maxAge)
-        writeCookieToResponse(cookie)
+        return cookie
     }
 
     private void writeCookieToResponse(Cookie cookie) {
