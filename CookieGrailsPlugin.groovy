@@ -72,13 +72,13 @@ Makes dealing with cookies easy.  Provides an injectable service and tag to easi
 
 	void extendReqResp() {
 		javax.servlet.http.HttpServletRequest.metaClass.getCookie = { String name ->
-			return cookieService.get(name)
+			return cookieService.getCookieValue(name)
 		}
 		javax.servlet.http.HttpServletResponse.metaClass.setCookie = { String name, String value, Integer maxAge ->
-			return cookieService.set(name,value,maxAge)
+			return cookieService.setCookieValue(name, value, maxAge)
 		}
 		javax.servlet.http.HttpServletResponse.metaClass.deleteCookie = { String name ->
-			return cookieService.delete(name)
+			return cookieService.deleteCookie(name)
 		}
 	}
 
