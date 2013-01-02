@@ -67,9 +67,17 @@ class CookieService {
     }
 
     /** Deletes the named cookie */
-	void delete(String name) {
+	void deleteCookie(String name) {
         log.info "Removing cookie \"${name}\""
         setCookie(name,null,0)
+    }
+
+    /**
+     * Deletes the named cookie
+     * @deprecated Use {@link #deleteCookie(String)} instead
+     **/
+    void delete(String name) {
+        deleteCookie(name)
     }
 
     /** Set or replace cookie */
