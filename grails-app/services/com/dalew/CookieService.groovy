@@ -47,11 +47,16 @@ class CookieService {
         return cookies.find { it.name == name };
     }
 
-    /** Sets the cookie with name to value, with age in seconds */
-    void setCookie(String name, String value, Integer age = null) {
-        age = age ?: getDefaultCookieAge()
-        log.info "Setting cookie \"${name}\" to: \"${value}\" with age: ${age} seconds"
-        writeCookieToResponse(name, value, age)
+    /**
+     * Sets the cookie with name to value, with age in seconds
+     * @param name Cookie name
+     * @param value Cookie value
+     * @param maxAge Age to store cookie in seconds (optional)
+     */
+    void setCookie(String name, String value, Integer maxAge = null) {
+        maxAge = maxAge ?: getDefaultCookieAge()
+        log.info "Setting cookie \"${name}\" to: \"${value}\" with maxAge: ${maxAge} seconds"
+        writeCookieToResponse(name, value, maxAge)
     }
 
     /**
@@ -81,10 +86,10 @@ class CookieService {
     }
 
     /** Set or replace cookie */
-    private void writeCookieToResponse(String name, String value, Integer age) {
+    private void writeCookieToResponse(String name, String value, Integer maxAge) {
         Cookie cookie = new Cookie(name, value)
         cookie.setPath('/')
-        cookie.setMaxAge(age)
+        cookie.setMaxAge(maxAge)
         WebUtils.retrieveGrailsWebRequest().getCurrentResponse().addCookie(cookie)
         log.info "cookie added: ${name} = ${value}"
     }
