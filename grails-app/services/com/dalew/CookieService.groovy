@@ -48,10 +48,18 @@ class CookieService {
     }
 
     /** Sets the cookie with name to value, with age in seconds */
-    void set(String name, String value, Integer age = null) {
-		age = age ?: getDefaultCookieAge()
-		log.info "Setting cookie \"${name}\" to: \"${value}\" with age: ${age} seconds"
+    void setCookieValue(String name, String value, Integer age = null) {
+        age = age ?: getDefaultCookieAge()
+        log.info "Setting cookie \"${name}\" to: \"${value}\" with age: ${age} seconds"
         setCookie(name, value, age)
+    }
+
+    /**
+     * Sets the cookie with name to value, with age in seconds
+     * @deprecated Use {@link #setCookieValue(String, String, Integer)} instead
+     **/
+    void set(String name, String value, Integer age = null) {
+        setCookieValue(name, value, age)
     }
 
     int getDefaultCookieAge() {
