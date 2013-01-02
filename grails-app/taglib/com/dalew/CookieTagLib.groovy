@@ -19,7 +19,7 @@ class CookieTagLib {
      * @attr name REQUIRED the cookie name
      */
     def get = { attrs ->
-        def value = cookieService.getCookieValue(attrs.name)
+        def value = cookieService.getCookie(attrs.name)
         out << value
     }
 

@@ -16,7 +16,7 @@ class CookieService {
      * Gets the value of the named cookie.
      * @return Returns null if does not exist
      */
-    String getCookieValue(String name) {
+    String getCookie(String name) {
         String cookieValue = findCookie(name)?.value
         if (cookieValue == null) {
             log.info "Found cookie \"${name}\", value = \"${cookieValue}\""
@@ -30,10 +30,10 @@ class CookieService {
     /**
      * Gets the value of the named cookie.
      * @return Returns null if does not exist
-     * @deprecated Use {@link #getCookieValue(String)} instead
+     * @deprecated Use {@link #getCookie(String)} instead
      */
     String get(String name) {
-        return getCookieValue(name)
+        return getCookie(name)
     }
 
     /**
