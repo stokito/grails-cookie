@@ -10,19 +10,19 @@ class CookieService {
 	
 	def grailsApplication
 	
-	/* Gets the value of the named cookie.  Returns null if does not exist */
-    
-	String get(String name) {
-		Cookie cookie = getCookie(name)
-		if ( cookie ) {
-			def value = cookie.getValue()
-			log.info "Found cookie \"${name}\", value = \"${value}\""
-            return value
-		}
-		else {
-			log.info "No cookie found with name: \"${name}\""
-			return null
-		}
+    /**
+     * Gets the value of the named cookie.
+     * @return Returns null if does not exist
+     **/
+    String get(String name) {
+        String cookieValue = getCookie(name)?.value
+        if (cookieValue == null) {
+            log.info "Found cookie \"${name}\", value = \"${cookieValue}\""
+            return cookieValue
+        } else {
+            log.info "No cookie found with name: \"${name}\""
+            return null
+        }
     }
 
     /* Sets the cookie with name to value, with maxAge in seconds */
