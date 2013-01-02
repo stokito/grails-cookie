@@ -96,6 +96,11 @@ class CookieService {
         writeCookieToResponse(cookie)
     }
 
+    /** Deletes the named cookie */
+    void deleteCookie(Cookie cookie) {
+        deleteCookie(cookie.name)
+    }
+
     /**
      * Deletes the named cookie
      * @deprecated Use {@link #deleteCookie(String)} instead
