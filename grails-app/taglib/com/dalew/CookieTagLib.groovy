@@ -2,11 +2,23 @@ package com.dalew
 
 
 class CookieTagLib {
-	static namespace = "cookie"
+
+	static namespace = 'cookie'
 	
 	def cookieService
-	
-	def get = { attrs ->
+
+    /**
+     * Prints the value of a cookie.
+     * Usage:
+     * <code>
+     * <cookie:get name='username' />
+     * </code>
+     *
+     * @deprecated Is obsolete since we can use standard <g:cookie/>
+     * @emptyTag
+     * @attr name REQUIRED the cookie name
+     */
+    def get = { attrs ->
 		def value = cookieService.get(attrs.name)
 		out << value
     }
