@@ -14,7 +14,7 @@ class CookieService {
 
     /**
      * Gets the value of the named cookie.
-     * @return Returns null if does not exist
+     * @return Returns cookie value or null if cookie does not exist
      */
     String getCookie(String name) {
         String cookieValue = findCookie(name)?.value
