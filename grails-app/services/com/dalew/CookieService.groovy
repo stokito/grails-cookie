@@ -27,8 +27,8 @@ class CookieService {
         }
     }
 
-    /* Sets the cookie with name to value, with maxAge in seconds */
-    void set(String name,String value,Integer age = null) {
+    /** Sets the cookie with name to value, with age in seconds */
+    void set(String name, String value, Integer age = null) {
 		age = age ?: grailsApplication.config.grails.plugins.cookie.cookieage.default ?: 2592000 // default 30 days
 		log.info "Setting cookie \"${name}\" to: \"${value}\" with age: ${age} seconds"
         setCookie(name, value, age)
