@@ -17,6 +17,7 @@ class CookieService {
      * @return Returns cookie value or null if cookie does not exist
      */
     String getCookie(String name) {
+        assert name
         String cookieValue = findCookie(name)?.value
         if (cookieValue == null) {
             log.info "Found cookie \"${name}\", value = \"${cookieValue}\""
@@ -53,11 +54,13 @@ class CookieService {
 
     /**
      * Sets the cookie with name to value, with age in seconds
-     * @param name Cookie name
-     * @param value Cookie value
-     * @param maxAge Age to store cookie in seconds (optional)
+     * @param name Cookie name. Can't be blank or null.
+     * @param value Cookie value. Can be blank but not null.
+     * @param maxAge Age to store cookie in seconds. Optional
      */
     void setCookie(String name, String value, Integer maxAge = null) {
+        assert name
+        assert value != null
         maxAge = maxAge ?: getDefaultCookieAge()
         log.info "Setting cookie \"${name}\" to: \"${value}\" with maxAge: ${maxAge} seconds"
         writeCookieToResponse(name, value, maxAge)
@@ -77,6 +80,7 @@ class CookieService {
 
     /** Deletes the named cookie */
     void deleteCookie(String name) {
+        assert name
         log.info "Removing cookie \"${name}\""
         writeCookieToResponse(name, null, 0)
     }
