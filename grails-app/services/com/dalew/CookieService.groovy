@@ -2,10 +2,6 @@ package com.dalew
 
 import javax.servlet.http.Cookie
 import org.codehaus.groovy.grails.web.util.WebUtils
-import org.springframework.web.context.request.RequestContextHolder
-
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 
 class CookieService {
 
@@ -58,12 +54,9 @@ class CookieService {
     }
 
     /** Gets the named cookie */
-    Cookie getCookie(String name, HttpServletRequest request = null) {
+    Cookie getCookie(String name) {
         assert name
-        if (!request) {
-            request = WebUtils.retrieveGrailsWebRequest().currentRequest
-        }
-        def cookies = request.getCookies()
+        def cookies = WebUtils.retrieveGrailsWebRequest().currentRequest.getCookies()
         if (!cookies || !name) {
             return null
         }
