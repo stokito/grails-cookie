@@ -5,7 +5,7 @@ This plugin makes dealing with cookies easy.  Provides an injectable service and
 To install the cookie plug-in just add to BuildConfig.groovy:
 
 ```
-compile ':cookie:0.4'
+compile ':cookie:0.5'
 ```
 
 Or install via command line:
@@ -28,13 +28,13 @@ The cookie plug-in extends the request and response objects found in controllers
 Example of setting a new cookie: (this sets a cookie with the name 'username' to the value 'cookieUser123' with a expiration set to a week, defined in seconds)
 
 ```
-response.setCookie('username','cookieUser123',604800)
+response.setCookie('username', 'cookieUser123', 604800)
 ```
 
 OR
 
 ```
-response.setCookie('username','cookieUser123')// will use default age in Config (or 30 days if not defined)
+response.setCookie('username', 'cookieUser123') // will use default age in Config (or 30 days if not defined)
 ```
 
 To get the cookie value:
@@ -62,13 +62,13 @@ def cookieService
 Setting a new cookie:
 
 ```
-cookieService.set('username','cookieUser123',604800)
+cookieService.setCookie('username', 'cookieUser123', 604800)
 ```
 
 OR
 
 ```
-cookieService.setCookie('username','cookieUser123')// will use default age in Config (or 30 days if not defined)
+cookieService.setCookie('username', 'cookieUser123')// will use default age in Config (or 30 days if not defined)
 ```
 
 Getting the cookie value:
@@ -83,7 +83,7 @@ Deleting the cookie:
 cookieService.delete('username') // deletes the 'username' cookie
 ```
 
-## Tag Lib
+## Tag Lib (deprecated)
 
 You can also get a cookie value with a tag:
 
@@ -91,6 +91,14 @@ You can also get a cookie value with a tag:
 <cookie:get name='username' />
 ```
 
+Note: Since 0.5 this tag is deprecated and will be removed in next releases. Use <g:cookie/> tag instead.
+
 ## Notes
 
-In the 0.3 release a big issue was fixed that now sets the cookie's path to the root '/' context.  Otherwise it was setting the path to the same as the controller/service that triggered it.   Most users I believe will want this behavior.  If setting the path is desired, that can be accomodated.  Please contact me or do a pull request if you'd like that.
+In the 0.3 release a big issue was fixed that now sets the cookie's path to the root '/' context.
+Otherwise it was setting the path to the same as the controller/service that triggered it.
+Most users I believe will want this behavior.  If setting the path is desired, that can be accomodated.
+Please contact me or do a pull request if you'd like that.
+
+## Demo
+You can check out demo here https://github.com/stokito/grails-cookie-demo
