@@ -19,9 +19,4 @@ log4j = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
-
-    warn   'org.mortbay.log'
 }
-grails.views.default.codec='none' // none, html, base64
-grails.views.gsp.encoding='UTF-8'
-
