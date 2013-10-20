@@ -5,7 +5,7 @@ This plugin makes dealing with cookies easy.  Provides an injectable service and
 To install the cookie plug-in just add to BuildConfig.groovy:
 
 ```
-compile ':cookie:0.5'
+compile ':cookie:0.51'
 ```
 
 Or install via command line:
