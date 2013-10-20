@@ -1,6 +1,6 @@
 class CookieGrailsPlugin {
     /** the plugin version */
-    def version = '0.5'
+    def version = '0.51'
     /** the version or versions of Grails the plugin is designed for */
     def grailsVersion = '2.1 > *'
     /** the other plugins this plugin depends on */
@@ -34,6 +34,10 @@ class CookieGrailsPlugin {
     /** Online location of the plugin's browseable source code. */
     def scm = [url: 'https://github.com/dalew75/grails-cookie']
 
+	def doWithDynamicMethods = { applicationContext ->
+		extendReqResp()
+    }
+	
     def onChange = { event ->
         extendReqResp()
     }

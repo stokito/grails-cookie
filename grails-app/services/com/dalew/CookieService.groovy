@@ -85,7 +85,7 @@ class CookieService {
     }
 
     int getDefaultCookieAge() {
-        return grailsApplication.config.grails?.plugins?.cookie?.cookieage?.default ?: DEFAULT_COOKIE_AGE
+        return grailsApplication?.config?.grails?.plugins?.cookie?.cookieage?.default ?: DEFAULT_COOKIE_AGE
     }
 
     /** Deletes the named cookie */
