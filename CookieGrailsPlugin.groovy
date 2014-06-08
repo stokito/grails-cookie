@@ -13,14 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import grails.util.Holders
+import javax.servlet.http.HttpServletRequest
 
 /**
  * @author <a href='mailto:dale@dalew.com'>Dale Wiggins</a>
  * @author <a href='mailto:stokito@gmail.com'>Sergey Ponomarev</a>
+ * @author <a href='mailto:donbeave@gmail.com'>Alexey Zhokhov</a>
  */
 class CookieGrailsPlugin {
 
-    def version = '0.51'
+    def version = '0.52'
     def grailsVersion = '2.1 > *'
     def pluginExcludes = [
             'grails-app/views/error.gsp'
@@ -30,8 +33,6 @@ class CookieGrailsPlugin {
     def title = 'Cookie Plugin'
     def description = 'Makes dealing with cookies easy. Provides an injectable service and expands request with methods to easily get, set, and delete cookies with one line'
 
-    def cookieService = new com.dalew.CookieService()
-
     def observe = ['controllers']
 
     def documentation = 'https://github.com/dalew75/grails-cookie'
@@ -40,7 +41,8 @@ class CookieGrailsPlugin {
 
     def developers = [
             [name: 'Dale Wiggins', email: 'dale@dalew.com'],
-            [name: 'Sergey Ponomarev', email: 'stokito@gmail.com']
+            [name: 'Sergey Ponomarev', email: 'stokito@gmail.com'],
+            [name: 'Alexey Zhokhov', email: 'donbeave@gmail.com']
     ]
 
     def issueManagement = [system: 'GITHUB', url: 'https://github.com/dalew75/grails-cookie/issues']
@@ -55,14 +57,14 @@ class CookieGrailsPlugin {
     }
 
     void extendReqResp() {
-        javax.servlet.http.HttpServletRequest.metaClass.getCookie = { String name ->
-            return cookieService.getCookie(name)
+        HttpServletRequest.metaClass.getCookie = { String name ->
+            return Holders.applicationContext.cookieService.getCookie(name)
         }
-        javax.servlet.http.HttpServletResponse.metaClass.setCookie = { String name, String value, Integer maxAge = null ->
-            return cookieService.setCookie(name, value, maxAge)
+        HttpServletRequest.metaClass.setCookie = { String name, String value, Integer maxAge = null ->
+            return Holders.applicationContext.cookieService.setCookie(name, value, maxAge)
         }
-        javax.servlet.http.HttpServletResponse.metaClass.deleteCookie = { String name ->
-            return cookieService.deleteCookie(name)
+        HttpServletRequest.metaClass.deleteCookie = { String name, String domain = null ->
+            return Holders.applicationContext.cookieService.deleteCookie(name, domain)
         }
     }
 

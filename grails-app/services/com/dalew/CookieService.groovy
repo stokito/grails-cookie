@@ -22,6 +22,7 @@ import javax.servlet.http.Cookie
 /**
  * @author <a href='mailto:dale@dalew.com'>Dale Wiggins</a>
  * @author <a href='mailto:stokito@gmail.com'>Sergey Ponomarev</a>
+ * @author <a href='mailto:donbeave@gmail.com'>Alexey Zhokhov</a>
  */
 class CookieService {
 
@@ -109,16 +110,18 @@ class CookieService {
     }
 
     /** Deletes the named cookie */
-    void deleteCookie(String name) {
+    void deleteCookie(String name, String domain = null) {
         assert name
         log.info "Removing cookie \"${name}\""
         Cookie cookie = createCookie(name, null, 0)
+        if (domain)
+            cookie.domain = domain
         writeCookieToResponse(cookie)
     }
 
     /** Deletes the named cookie */
     void deleteCookie(Cookie cookie) {
-        deleteCookie(cookie.name)
+        deleteCookie(cookie.name, cookie.domain)
     }
 
     /**
