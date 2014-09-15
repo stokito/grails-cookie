@@ -1,4 +1,4 @@
-This plugin makes dealing with cookies easy.  Provides an injectable service and tag to easily get, set, and delete cookies with one line.
+This plugin makes dealing with cookies easy. Provides an injectable service and tag to easily get, set, and delete cookies with one line.
 
 ## Installation
 
@@ -78,5 +78,4 @@ Most users I believe will want this behavior. If setting the path is desired, th
 Please contact me or do a pull request if you'd like that.
 
 ## Demo
-You can check out (https://github.com/stokito/grails-cookie-demo)[demo here 
-]
+You can check out [demo here](https://github.com/stokito/grails-cookie-demo)
