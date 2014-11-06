@@ -16,6 +16,7 @@
 package com.dalew
 
 import org.codehaus.groovy.grails.web.util.WebUtils
+import org.apache.commons.lang.RandomStringUtils as rs
 
 import javax.servlet.http.Cookie
 
@@ -88,6 +89,21 @@ class CookieService {
     }
 
     /**
+	 * Sets the cookie with name, age in seconds and creates 
+	 * a random string with given stringSize as a cookie value
+	 * @param name Cookie name. Can't be blank or null.
+	 * @param stringSize random string size. Can not be blank or null.
+	 * @param maxAge Age to store cookie in seconds. Optional
+	 */
+	void setCookie(String name, Integer stringSize, Integer maxAge = null) {
+		assert name
+		assert stringSize
+		maxAge = maxAge ?: getDefaultCookieAge()
+		def value = getRandomeValue(stringSize)
+		Cookie cookie = createCookie(name, value, maxAge)
+		setCookie(cookie)
+	}
+    /**
      * Sets the cookie
      * @see #setCookie(String, String, Integer)
      */
@@ -143,5 +159,9 @@ class CookieService {
         WebUtils.retrieveGrailsWebRequest().getCurrentResponse().addCookie(cookie)
         log.info "cookie added: ${cookie.name} = ${cookie.value}"
     }
+    
+    private String getRandomeValue(Integer stringSize) {
+		rs.random(stringSize, true, true)
+	}
 
 }
