@@ -23,6 +23,7 @@ import javax.servlet.http.Cookie
  * @author <a href='mailto:dale@dalew.com'>Dale Wiggins</a>
  * @author <a href='mailto:stokito@gmail.com'>Sergey Ponomarev</a>
  * @author <a href='mailto:donbeave@gmail.com'>Alexey Zhokhov</a>
+ * @author <a href='mailto:mehulkatpara24@yahoo.in'>Mehul Katpara</a>
  */
 class CookieService {
 
