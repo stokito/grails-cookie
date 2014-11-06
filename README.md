@@ -53,6 +53,14 @@ OR
 ```groovy
 cookieService.setCookie('username', 'cookieUser123') // will use default age in Config (or 30 days if not defined)
 ```
+
+To creat a cookie with alphanumeric value,
+```groovy
+// The second parameter here defines the size of the random aphanumeric string size [a-z A-Z 0-9]
+// So the cookie will be something like => username: 'LzNN0kbsELzXOqXQEJnRc8l........'
+// will use default age in Config (or 30 days if not defined)
+cookieService.setCookie('username', 128) 
+```
 Getting the cookie value:
 ```groovy
 cookieService.get('username') // returns 'cookieUser123'
