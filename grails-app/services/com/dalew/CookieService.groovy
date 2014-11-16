@@ -113,14 +113,10 @@ class CookieService {
         assert name
         log.info "Removing cookie \"${name}\""
         Cookie cookie = createCookie(name, null, 0)
-        if (domain)
+        if (domain) {
             cookie.domain = domain
+        }
         writeCookieToResponse(cookie)
-    }
-
-    /** Deletes the named cookie */
-    void deleteCookie(Cookie cookie) {
-        deleteCookie(cookie.name, cookie.domain)
     }
 
     /**
