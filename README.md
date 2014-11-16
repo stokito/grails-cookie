@@ -26,6 +26,7 @@ Example of setting a new cookie:
 response.setCookie('username', 'cookieUser123', 604800)
 // will use default age from Config (or 30 days if not defined)
 response.setCookie('username', 'cookieUser123')
+
 // using service
 def cookieService // define field for DI
 ...
@@ -35,6 +36,7 @@ cookieService.setCookie('username', 'cookieUser123', 604800)
 To get the cookie value:
 ```groovy
 request.getCookie('username') // returns 'cookieUser123'
+
 // using service
 def cookieService // define field for DI
 ...
@@ -51,7 +53,7 @@ cookieService.deleteCookie('username')
 ```
 You can check out [Demo project](https://github.com/stokito/grails-cookie-demo)
 
-## Notes and Changelog
+## Changelog
 Since v0.5 few things was deprecated and will be removed in version v1.0:
 * Tag `<cookie:get/>`. Use standard `<g:cookie/>` tag instead.
 * Methods `get()`, `set()`, `delete()` from CookieService. They are replaced with corresponding `getCookie()`, `setCookie()`, `deleteCookie()`.
