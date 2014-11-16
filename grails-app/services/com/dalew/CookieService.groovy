@@ -32,6 +32,7 @@ class CookieService {
 
     /**
      * Gets the value of the named cookie.
+     * @param name Case-sensitive cookie name
      * @return Returns cookie value or null if cookie does not exist
      */
     String getCookie(String name) {
@@ -58,6 +59,7 @@ class CookieService {
 
     /**
      * Gets the named cookie
+     * @param name Case-sensitive cookie name
      * @return null if cookie not found
      */
     Cookie findCookie(String name) {
@@ -73,14 +75,14 @@ class CookieService {
 
     /**
      * Sets the cookie with name to value, with age in seconds
-     * @param name Cookie name. Can't be blank or null.
+     * @param name Cookie name. Can't be blank or null and is case-sensitive
      * @param value Cookie value. Can be blank but not null.
      * @param maxAge Age to store cookie in seconds. Optional
      */
     void setCookie(String name, String value, Integer maxAge = null) {
         assert name
         assert value != null
-        maxAge = maxAge ?: getDefaultCookieAge()
+        maxAge = maxAge ?: defaultCookieAge
         Cookie cookie = createCookie(name, value, maxAge)
         setCookie(cookie)
     }
@@ -104,7 +106,7 @@ class CookieService {
         setCookie(name, value, age)
     }
 
-    int getDefaultCookieAge() {
+    private int getDefaultCookieAge() {
         return grailsApplication?.config?.grails?.plugins?.cookie?.cookieage?.default ?: DEFAULT_COOKIE_AGE
     }
 
@@ -136,7 +138,7 @@ class CookieService {
     }
 
     private void writeCookieToResponse(Cookie cookie) {
-        WebUtils.retrieveGrailsWebRequest().getCurrentResponse().addCookie(cookie)
+        WebUtils.retrieveGrailsWebRequest().currentResponse.addCookie(cookie)
         log.info "cookie added: ${cookie.name} = ${cookie.value}"
     }
 
