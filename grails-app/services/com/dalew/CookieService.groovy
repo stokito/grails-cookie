@@ -64,8 +64,8 @@ class CookieService {
      */
     Cookie findCookie(String name) {
         assert name
-        def cookies = WebUtils.retrieveGrailsWebRequest().currentRequest.getCookies()
-        if (!cookies || !name) {
+        def cookies = WebUtils.retrieveGrailsWebRequest().currentRequest.cookies
+        if (!cookies) {
             return null
         }
         // Otherwise, we have to do a linear scan for the cookie.
@@ -106,10 +106,6 @@ class CookieService {
         setCookie(name, value, age)
     }
 
-    private int getDefaultCookieAge() {
-        return grailsApplication?.config?.grails?.plugins?.cookie?.cookieage?.default ?: DEFAULT_COOKIE_AGE
-    }
-
     /** Deletes the named cookie */
     void deleteCookie(String name, String domain = null) {
         assert name
@@ -142,4 +138,7 @@ class CookieService {
         log.info "cookie added: ${cookie.name} = ${cookie.value}"
     }
 
+    private int getDefaultCookieAge() {
+        return grailsApplication?.config?.grails?.plugins?.cookie?.cookieage?.default ?: DEFAULT_COOKIE_AGE
+    }
 }
