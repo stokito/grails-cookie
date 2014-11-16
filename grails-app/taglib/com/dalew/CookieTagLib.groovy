@@ -15,6 +15,8 @@
  */
 package com.dalew
 
+/** @deprecated This taglib is deprecated and will be removed in version 1.0 */
+@Deprecated
 class CookieTagLib {
 
     static namespace = 'cookie'
