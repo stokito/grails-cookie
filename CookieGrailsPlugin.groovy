@@ -16,37 +16,23 @@
 import grails.util.Holders
 import javax.servlet.http.HttpServletRequest
 
-/**
- * @author <a href='mailto:dale@dalew.com'>Dale Wiggins</a>
- * @author <a href='mailto:stokito@gmail.com'>Sergey Ponomarev</a>
- * @author <a href='mailto:donbeave@gmail.com'>Alexey Zhokhov</a>
- */
 class CookieGrailsPlugin {
-
     def version = '0.52'
     def grailsVersion = '2.1 > *'
-    def pluginExcludes = [
-            'grails-app/views/error.gsp'
-    ]
     def author = 'Dale Wiggins'
     def authorEmail = 'dale@dalew.com'
     def title = 'Cookie Plugin'
     def description = 'Makes dealing with cookies easy. Provides an injectable service and expands request with methods to easily get, set, and delete cookies with one line'
-
     def observe = ['controllers']
-
     def documentation = 'https://github.com/dalew75/grails-cookie'
-
     def license = 'APACHE'
-
     def developers = [
-            [name: 'Dale Wiggins', email: 'dale@dalew.com'],
-            [name: 'Sergey Ponomarev', email: 'stokito@gmail.com'],
+            [name: 'Dale Wiggins', email: 'dale@dalew.com', role: 'original author'],
+            [name: 'Sergey Ponomarev', email: 'stokito@gmail.com', role: 'current maintainer'],
             [name: 'Alexey Zhokhov', email: 'donbeave@gmail.com']
     ]
-
-    def issueManagement = [system: 'GITHUB', url: 'https://github.com/dalew75/grails-cookie/issues']
-    def scm = [url: 'https://github.com/dalew75/grails-cookie']
+    def issueManagement = [system: 'GITHUB', url: 'https://github.com/stokito/grails-cookie/issues']
+    def scm = [url: 'https://github.com/stokito/grails-cookie']
 
     def doWithDynamicMethods = { applicationContext ->
         extendReqResp()
@@ -67,5 +53,4 @@ class CookieGrailsPlugin {
             return Holders.applicationContext.cookieService.deleteCookie(name, domain)
         }
     }
-
 }

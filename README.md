@@ -4,78 +4,57 @@ This plugin makes dealing with cookies easy. Provides an injectable service and 
 
 To install the cookie plug-in just add to `BuildConfig.groovy`:
 ```groovy
-compile ':cookie:0.51'
-```
-Or install via command line:
-```
-grails install-plugin cookie
+compile ':cookie:0.52'
 ```
 
 ## Configuration
 
-You can configure how long the default cookie age will be (in seconds) when not explicitly supplied while setting a cookie.
+You can configure in `Config.groovy` how long the default cookie age will be (in seconds) when not explicitly supplied while setting a cookie.
 ```groovy
 grails.plugins.cookie.cookieage.default = 86400 // if not specified default in code is 30 days
 ```
+
 ## Usage
 
-The cookie plug-in extends the request and response objects found in controllers, filters, etc to allow the following:
+You have two ways to work with cookies:
+* The cookie plug-in extends the `request` and `response` objects found in controllers, filters, etc to allow the following.
+* The cookie plug-in provides a `CookieService` that can be used anywhere in your Grails application.
 
-Example of setting a new cookie: (this sets a cookie with the name `username` to the value `cookieUser123` with a expiration set to a week, defined in seconds)
+Example of setting a new cookie:
 ```groovy
+// This sets a cookie with the name `username` to the value `cookieUser123` with a expiration set to a week, defined in seconds
 response.setCookie('username', 'cookieUser123', 604800)
+// will use default age from Config (or 30 days if not defined)
+response.setCookie('username', 'cookieUser123')
+// using service
+def cookieService // define field for DI
+...
+cookieService.setCookie('username', 'cookieUser123', 604800)
 ```
-OR
-```groovy
-response.setCookie('username', 'cookieUser123') // will use default age in Config (or 30 days if not defined)
-```
+
 To get the cookie value:
 ```groovy
 request.getCookie('username') // returns 'cookieUser123'
-```
-To delete the cookie:
-```groovy
-response.deleteCookie('username') // deletes the 'username' cookie
-```
-
-## Usage by calling CookieService directly
-
-The cookie plug-in provides a `CookieService` that can be used anywhere in your Grails application.
-To use `CookieService`, declare a dependency injection:
-```groovy
-def cookieService
-```
-Setting a new cookie:
-```groovy
-cookieService.setCookie('username', 'cookieUser123', 604800)
-```
-OR
-```groovy
-cookieService.setCookie('username', 'cookieUser123') // will use default age in Config (or 30 days if not defined)
-```
-Getting the cookie value:
-```groovy
+// using service
+def cookieService // define field for DI
+...
 cookieService.get('username') // returns 'cookieUser123'
 ```
-Deleting the cookie:
+
+To delete the cookie (actually it set new expired cookie with same name):
 ```groovy
-cookieService.delete('username') // deletes the 'username' cookie
+response.deleteCookie('username') // deletes the 'username' cookie
+// using service
+def cookieService // define field for DI
+...
+cookieService.delete('username')
 ```
-
-## Tag Lib (deprecated)
-
-You can also get a cookie value with a tag:
-```xml
-<cookie:get name='username' />
-```
-**Note:** Since 0.5 this tag is deprecated and will be removed in next releases. Use `<g:cookie/>` tag instead.
+You can check out [Demo project](https://github.com/stokito/grails-cookie-demo)
 
 ## Notes
+Since v0.5 tag `<cookie:get/>` is deprecated and will be removed in v1.0 release. Use standard `<g:cookie/>` tag instead.
 
-In the 0.3 release a big issue was fixed that now sets the cookie's path to the root `/` context.
+In the v0.3 release a big issue was fixed that now sets the cookie's path to the root `/` context.
 Otherwise it was setting the path to the same as the controller/service that triggered it.
 Most users I believe will want this behavior. If setting the path is desired, that can be accomodated.
 Please contact me or do a pull request if you'd like that.
-
-## Demo
-You can check out [demo here](https://github.com/stokito/grails-cookie-demo)
