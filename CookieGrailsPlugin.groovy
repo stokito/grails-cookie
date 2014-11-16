@@ -15,6 +15,7 @@
  */
 import grails.util.Holders
 import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 class CookieGrailsPlugin {
     def version = '0.52'
@@ -46,10 +47,10 @@ class CookieGrailsPlugin {
         HttpServletRequest.metaClass.getCookie = { String name ->
             return Holders.applicationContext.cookieService.getCookie(name)
         }
-        HttpServletRequest.metaClass.setCookie = { String name, String value, Integer maxAge = null ->
+        HttpServletResponse.metaClass.setCookie = { String name, String value, Integer maxAge = null ->
             return Holders.applicationContext.cookieService.setCookie(name, value, maxAge)
         }
-        HttpServletRequest.metaClass.deleteCookie = { String name, String domain = null ->
+        HttpServletResponse.metaClass.deleteCookie = { String name, String domain = null ->
             return Holders.applicationContext.cookieService.deleteCookie(name, domain)
         }
     }
