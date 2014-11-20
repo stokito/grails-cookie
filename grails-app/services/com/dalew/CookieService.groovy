@@ -25,8 +25,7 @@ import javax.servlet.http.Cookie
  * @author <a href='mailto:donbeave@gmail.com'>Alexey Zhokhov</a>
  */
 class CookieService {
-    /** Default cookie age is 30 days */
-    private static final int DEFAULT_COOKIE_AGE = 2592000 // seconds
+    private static final int DEFAULT_COOKIE_AGE = 30 * 24 * 60 * 60 // 30 days in seconds
     boolean transactional = false
     def grailsApplication
 
@@ -45,16 +44,6 @@ class CookieService {
             log.info "No cookie found with name: \"${name}\""
             return null
         }
-    }
-
-    /**
-     * Gets the value of the named cookie.
-     * @return Returns null if does not exist
-     * @deprecated Use {@link #getCookie(String)} instead. Will be removed in version 1.0
-     */
-    @Deprecated
-    String get(String name) {
-        return getCookie(name)
     }
 
     /**
@@ -97,15 +86,6 @@ class CookieService {
         writeCookieToResponse(cookie)
     }
 
-    /**
-     * Sets the cookie with name to value, with age in seconds
-     * @deprecated Use {@link #setCookie(String, String, Integer)} instead. Will be removed in version 1.0
-     */
-    @Deprecated
-    void set(String name, String value, Integer age = null) {
-        setCookie(name, value, age)
-    }
-
     /** Deletes the named cookie */
     void deleteCookie(String name, String domain = null) {
         assert name
@@ -115,15 +95,6 @@ class CookieService {
             cookie.domain = domain
         }
         writeCookieToResponse(cookie)
-    }
-
-    /**
-     * Deletes the named cookie
-     * @deprecated Use {@link #deleteCookie(String)} instead. Will be removed in version 1.0
-     */
-    @Deprecated
-    void delete(String name) {
-        deleteCookie(name)
     }
 
     private Cookie createCookie(String name, String value, int maxAge) {
