@@ -54,11 +54,27 @@ cookieService.deleteCookie('username')
 You can check out [Demo project](https://github.com/stokito/grails-cookie-demo)
 
 ## Changelog
-Since v0.5 few things was deprecated and will be removed in version v1.0:
-* Tag `<cookie:get/>`. Use standard `<g:cookie/>` tag instead.
-* Methods `get()`, `set()`, `delete()` from CookieService. They are replaced with corresponding `getCookie()`, `setCookie()`, `deleteCookie()`.
+
+### v1.0 pre-release
+[Source](https://github.com/stokito/grails-cookie/releases/tag/v1.0)
+- [x] #17 Since v0.1 all deprecated things was removed:
+       * Tag `<cookie:get/>`. Use standard `<g:cookie/>` tag instead.
+       * Methods `get()`, `set()`, `delete()` from `CookieService`. They are replaced with corresponding `getCookie()`,  `setCookie()`, `deleteCookie()`.
+
+### v0.52
+[Source](https://github.com/stokito/grails-cookie/releases/tag/v0.52)
+
+- [x] #10 Improved delete cookie method.  Method delete cookie now can takes a domain name
+- [x] Fixed #3  `deleteCookie` not works in `response`
+- [x] #16 added tests
+- [x] #17 Since v0.5 few things was deprecated and will be removed in version v1.0:
+       * Tag `<cookie:get/>`. Use standard `<g:cookie/>` tag instead.
+       * Methods `get()`, `set()`, `delete()` from `CookieService`. They are replaced with corresponding `getCookie()`,  `setCookie()`, `deleteCookie()`.
+
+### v0.3
+[Source](https://github.com/stokito/grails-cookie/releases/tag/v0.3)
 
 In the v0.3 release a big issue was fixed that now sets the cookie's path to the root `/` context.
 Otherwise it was setting the path to the same as the controller/service that triggered it.
-Most users I believe will want this behavior. If setting the path is desired, that can be accomodated.
+Most users I believe will want this behavior. If setting the path is desired, that can be accommodated.
 Please contact me or do a pull request if you'd like that.
