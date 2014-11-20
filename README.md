@@ -57,6 +57,7 @@ You can check out [Demo project](https://github.com/stokito/grails-cookie-demo)
 
 ### v1.0 pre-release
 [Source](https://github.com/stokito/grails-cookie/releases/tag/v1.0)
+
 - [x] #17 Since v0.1 all deprecated things was removed:
        * Tag `<cookie:get/>`. Use standard `<g:cookie/>` tag instead.
        * Methods `get()`, `set()`, `delete()` from `CookieService`. They are replaced with corresponding `getCookie()`,  `setCookie()`, `deleteCookie()`.
