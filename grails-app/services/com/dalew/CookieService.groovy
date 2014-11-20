@@ -99,8 +99,9 @@ class CookieService {
 
     private Cookie createCookie(String name, String value, int maxAge) {
         Cookie cookie = new Cookie(name, value)
-        cookie.setPath('/')
-        cookie.setMaxAge(maxAge)
+        cookie.path = '/'
+        cookie.maxAge = maxAge
+        cookie.version = 1
         return cookie
     }
 

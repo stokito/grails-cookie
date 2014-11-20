@@ -41,12 +41,22 @@ class CookieServiceSpec extends Specification {
         expect: service.getCookie('SoMe_CoOkIe_NaMe') == null
     }
 
-    void "setCookie()"() {
+    void "setCookie() with default age"() {
         when: service.setCookie('some_cookie_name', 'cookie_value')
         then:
         response.cookies[0].name == 'some_cookie_name'
         response.cookies[0].value == 'cookie_value'
         response.cookies[0].maxAge == 2592000
+        response.cookies[0].version == 1
+    }
+
+    void "setCookie() with age"() {
+        when: service.setCookie('some_cookie_name', 'cookie_value', 42)
+        then:
+        response.cookies[0].name == 'some_cookie_name'
+        response.cookies[0].value == 'cookie_value'
+        response.cookies[0].maxAge == 42
+        response.cookies[0].version == 1
     }
 
     def "deleteCookie() sets new cookie with same name but expired age"() {
@@ -55,5 +65,6 @@ class CookieServiceSpec extends Specification {
         response.cookies[0].name == 'some_cookie_name'
         response.cookies[0].value == null
         response.cookies[0].maxAge == 0
+        response.cookies[0].version == 1
     }
 }
