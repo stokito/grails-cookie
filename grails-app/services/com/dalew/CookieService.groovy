@@ -106,10 +106,7 @@ class CookieService {
     void deleteCookie(String name, String domain = null) {
         assert name
         log.info "Removing cookie \"${name}\""
-        Cookie cookie = createCookie(name, null, COOKIE_AGE_TO_DELETE, null, null, null, null)
-        if (domain) {
-            cookie.domain = domain
-        }
+        Cookie cookie = createCookie(name, null, COOKIE_AGE_TO_DELETE, null, domain, null, null)
         writeCookieToResponse(cookie)
     }
 
