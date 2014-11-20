@@ -91,14 +91,23 @@ class CookieServiceSpec extends Specification {
         [name: 'cookie_name', value: 'cookie_val', maxAge: 42, path: '/path', domain: '.example.com', secure: true, httpOnly: true] | 'cookie_name' | 'cookie_val' | 42      | '/path' | '.example.com' | true   | true
     }
 
-    def "deleteCookie() sets new cookie with same name but expired age"() {
-        when:
-        service.deleteCookie('some_cookie_name') == null
+    @Unroll
+    def "deleteCookie() sets new cookie with same name but expired age: #name #path #domain"() {
+        given:
+        service.deleteCookie(args)
         def cookie = response.cookies[0]
-        then:
-        cookie.name == 'some_cookie_name'
+        expect:
+        cookie.name == name
         cookie.value == null
+        cookie.path == path
+        cookie.domain == domain
         cookie.maxAge == 0
         cookie.version == 1
+        where:
+        args                                     | name          | path    | domain
+        ['cookie_name']                          | 'cookie_name' | '/'    | null
+        ['cookie_name', '/path']                 | 'cookie_name' | '/path' | null
+        ['cookie_name', '/path', '.example.com'] | 'cookie_name' | '/path' | '.example.com'
+
     }
 }

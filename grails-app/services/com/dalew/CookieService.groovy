@@ -92,10 +92,7 @@ class CookieService {
         setCookie(cookie)
     }
 
-    /**
-     * Sets the cookie
-     * @see #setCookie(String, String, Integer)
-     */
+    /** Sets the cookie */
     void setCookie(Cookie cookie) {
         assert cookie
         log.info "Setting cookie \"${cookie.name}\" to: \"${cookie.value}\" with maxAge: ${cookie.maxAge} seconds"
@@ -103,10 +100,10 @@ class CookieService {
     }
 
     /** Deletes the named cookie */
-    void deleteCookie(String name, String domain = null) {
+    void deleteCookie(String name, String path = null, String domain = null) {
         assert name
         log.info "Removing cookie \"${name}\""
-        Cookie cookie = createCookie(name, null, COOKIE_AGE_TO_DELETE, null, domain, null, null)
+        Cookie cookie = createCookie(name, null, COOKIE_AGE_TO_DELETE, path, domain, null, null)
         writeCookieToResponse(cookie)
     }
 
