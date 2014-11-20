@@ -107,6 +107,11 @@ class CookieService {
         writeCookieToResponse(cookie)
     }
 
+    /** Deletes the named cookie */
+    void deleteCookie(Cookie cookie) {
+        deleteCookie(cookie.name, cookie.path, cookie.domain)
+    }
+
     private Cookie createCookie(String name, String value, Integer maxAge, String path, String domain, Boolean secure, Boolean httpOnly) {
         Cookie cookie = new Cookie(name, value)
         cookie.path = path ?: COOKIE_DEFAULT_PATH
