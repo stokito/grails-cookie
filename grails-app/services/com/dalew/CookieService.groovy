@@ -74,10 +74,14 @@ class CookieService {
      * @param httpOnly HttpOnly cookies are not supposed to be exposed to client-side JavaScript code, and may therefore help mitigate certain kinds of cross-site scripting attacks.
      */
     void setCookie(String name, String value, Integer maxAge = null, String path = '/', String domain = null, boolean secure = false, boolean httpOnly = false) {
-        assert name
-        assert value != null
         maxAge = maxAge ?: defaultCookieAge
         Cookie cookie = createCookie(name, value, maxAge, path, domain, secure, httpOnly)
+        setCookie(cookie)
+    }
+
+    void setCookie(Map args) {
+        int maxAge = args.maxAge ?: defaultCookieAge
+        Cookie cookie = createCookie(args.name, args.value, maxAge, args.path, args.domain, args.secure, args.httpOnly)
         setCookie(cookie)
     }
 
@@ -102,15 +106,16 @@ class CookieService {
         writeCookieToResponse(cookie)
     }
 
-    private Cookie createCookie(String name, String value, int maxAge, String path = '/', String domain = null, boolean secure = false, boolean httpOnly = false) {
+    private Cookie createCookie(String name, String value, Integer maxAge, String path = '/', String domain = null, Boolean secure = false, Boolean httpOnly = false) {
         Cookie cookie = new Cookie(name, value)
-        cookie.path = path
+        cookie.path = path ?: '/'
         cookie.maxAge = maxAge
+        // Cookie.setDomain() tries to lowercase domain name and trow NPE if domain is null
         if (domain) {
             cookie.domain = domain
         }
-        cookie.secure = secure
-        cookie.httpOnly = httpOnly
+        cookie.secure = secure != null ? secure : false
+        cookie.httpOnly = httpOnly != null ? httpOnly : false
         cookie.version = 1
         return cookie
     }

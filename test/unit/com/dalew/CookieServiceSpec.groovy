@@ -48,18 +48,19 @@ class CookieServiceSpec extends Specification {
     }
 
     @Unroll
-    void "setCookie() #name #value #maxAge #path #domain #secure #httpOnly"() {
+    void "setCookie(): #name #value #maxAge #path #domain #secure #httpOnly"() {
         given:
         service.setCookie(args)
+        def cookie = response.cookies[0]
         expect:
-        response.cookies[0].name == name
-        response.cookies[0].value == value
-        response.cookies[0].maxAge == maxAge
-        response.cookies[0].path == path
-        response.cookies[0].domain == domain
-        response.cookies[0].secure == secure
-        response.cookies[0].httpOnly == httpOnly
-        response.cookies[0].version == 1
+        cookie.name == name
+        cookie.value == value
+        cookie.maxAge == maxAge
+        cookie.path == path
+        cookie.domain == domain
+        cookie.secure == secure
+        cookie.httpOnly == httpOnly
+        cookie.version == 1
         where:
         args                                                                     | name          | value          | maxAge  | path    | domain         | secure | httpOnly
         ['cookie_name', 'cookie_value']                                          | 'cookie_name' | 'cookie_value' | 2592000 | '/'     | null           | false  | false
@@ -68,13 +69,36 @@ class CookieServiceSpec extends Specification {
         ['cookie_name', 'cookie_value', 42, '/path', '.example.com', true, true] | 'cookie_name' | 'cookie_value' | 42      | '/path' | '.example.com' | true   | true
     }
 
+    @Unroll
+    void "setCookie() named params: #name #value #maxAge #path #domain #secure #httpOnly"() {
+        given:
+        service.setCookie(args)
+        def cookie = response.cookies[0]
+        expect:
+        cookie.name == name
+        cookie.value == value
+        cookie.maxAge == maxAge
+        cookie.path == path
+        cookie.domain == domain
+        cookie.secure == secure
+        cookie.httpOnly == httpOnly
+        cookie.version == 1
+        where:
+        args                                                                                                                        | name          | value        | maxAge  | path    | domain         | secure | httpOnly
+        [name: 'cookie_name', value: 'cookie_val']                                                                                  | 'cookie_name' | 'cookie_val' | 2592000 | '/'     | null           | false  | false
+        [name: 'cookie_name', value: 'cookie_val', maxAge: 42]                                                                      | 'cookie_name' | 'cookie_val' | 42      | '/'     | null           | false  | false
+        [name: 'cookie_name', value: 'cookie_val', maxAge: 42, path: '/path']                                                       | 'cookie_name' | 'cookie_val' | 42      | '/path' | null           | false  | false
+        [name: 'cookie_name', value: 'cookie_val', maxAge: 42, path: '/path', domain: '.example.com', secure: true, httpOnly: true] | 'cookie_name' | 'cookie_val' | 42      | '/path' | '.example.com' | true   | true
+    }
+
     def "deleteCookie() sets new cookie with same name but expired age"() {
         when:
         service.deleteCookie('some_cookie_name') == null
+        def cookie = response.cookies[0]
         then:
-        response.cookies[0].name == 'some_cookie_name'
-        response.cookies[0].value == null
-        response.cookies[0].maxAge == 0
-        response.cookies[0].version == 1
+        cookie.name == 'some_cookie_name'
+        cookie.value == null
+        cookie.maxAge == 0
+        cookie.version == 1
     }
 }
