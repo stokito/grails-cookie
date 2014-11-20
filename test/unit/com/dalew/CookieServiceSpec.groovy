@@ -62,11 +62,11 @@ class CookieServiceSpec extends Specification {
         cookie.httpOnly == httpOnly
         cookie.version == 1
         where:
-        args                                                                     | name          | value          | maxAge  | path    | domain         | secure | httpOnly
-        ['cookie_name', 'cookie_value']                                          | 'cookie_name' | 'cookie_value' | 2592000 | '/'     | null           | false  | false
-        ['cookie_name', 'cookie_value', 42]                                      | 'cookie_name' | 'cookie_value' | 42      | '/'     | null           | false  | false
-        ['cookie_name', 'cookie_value', 42, '/path']                             | 'cookie_name' | 'cookie_value' | 42      | '/path' | null           | false  | false
-        ['cookie_name', 'cookie_value', 42, '/path', '.example.com', true, true] | 'cookie_name' | 'cookie_value' | 42      | '/path' | '.example.com' | true   | true
+        args                                                                   | name          | value        | maxAge  | path    | domain         | secure | httpOnly
+        ['cookie_name', 'cookie_val']                                          | 'cookie_name' | 'cookie_val' | 2592000 | '/'     | null           | false  | false
+        ['cookie_name', 'cookie_val', 42]                                      | 'cookie_name' | 'cookie_val' | 42      | '/'     | null           | false  | false
+        ['cookie_name', 'cookie_val', 42, '/path']                             | 'cookie_name' | 'cookie_val' | 42      | '/path' | null           | false  | false
+        ['cookie_name', 'cookie_val', 42, '/path', '.example.com', true, true] | 'cookie_name' | 'cookie_val' | 42      | '/path' | '.example.com' | true   | true
     }
 
     @Unroll

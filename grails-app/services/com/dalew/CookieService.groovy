@@ -25,7 +25,12 @@ import javax.servlet.http.Cookie
  * @author <a href='mailto:donbeave@gmail.com'>Alexey Zhokhov</a>
  */
 class CookieService {
-    private static final int DEFAULT_COOKIE_AGE = 30 * 24 * 60 * 60 // 30 days in seconds
+    static final int DEFAULT_COOKIE_AGE = 30 * 24 * 60 * 60
+    static final String COOKIE_DEFAULT_PATH = '/'
+    static final boolean COOKIE_DEFAULT_SECURE = false
+    static final boolean COOKIE_DEFAULT_HTTP_ONLY = false
+    static final int COOKIE_AGE_TO_DELETE = 0
+    // 30 days in seconds
     boolean transactional = false
     def grailsApplication
 
@@ -66,22 +71,24 @@ class CookieService {
      * Sets the cookie with name to value, with age in seconds
      * @param name Cookie name. Can't be blank or null and is case-sensitive
      * @param value Cookie value. Can be blank but not null.
-     * @param maxAge Age to store cookie in seconds. Optional
+     * @param maxAge Age to store cookie in seconds; if negative, means the cookie is not stored; if zero, deletes the cookie. Optional
      * @param path A path to which the client should return the cookie. The cookie is visible to all the pages in the directory. For example, <i>/catalog</i>, which makes the cookie visible to all directories on the server under <i>/catalog</i>. See RFC 2109
      * @param domain Domain name by RFC 2109. It begins with a dot (.example.com) and means that the cookie is visible to servers in a specified DNS zone (for example, www.example.com, but not a.b.example.com).
      *               By default, cookies are only returned to the server that sent them.
      * @param secure Indicates to the browser whether the cookie should only be sent using a secure protocol, such as HTTPS or SSL.
      * @param httpOnly HttpOnly cookies are not supposed to be exposed to client-side JavaScript code, and may therefore help mitigate certain kinds of cross-site scripting attacks.
      */
-    void setCookie(String name, String value, Integer maxAge = null, String path = '/', String domain = null, boolean secure = false, boolean httpOnly = false) {
-        maxAge = maxAge ?: defaultCookieAge
+    void setCookie(String name, String value, Integer maxAge = null, String path = COOKIE_DEFAULT_PATH, String domain = null, boolean secure = COOKIE_DEFAULT_SECURE, boolean httpOnly = COOKIE_DEFAULT_HTTP_ONLY) {
         Cookie cookie = createCookie(name, value, maxAge, path, domain, secure, httpOnly)
         setCookie(cookie)
     }
 
+    /**
+     * Sets the cookie with name to value, with age in seconds
+     * @param args Named params eg <code>[name: 'cookie_name', value: 'some_val', secure: true] </code>
+     */
     void setCookie(Map args) {
-        int maxAge = args.maxAge ?: defaultCookieAge
-        Cookie cookie = createCookie(args.name, args.value, maxAge, args.path, args.domain, args.secure, args.httpOnly)
+        Cookie cookie = createCookie(args.name, args.value, args.maxAge, args.path, args.domain, args.secure, args.httpOnly)
         setCookie(cookie)
     }
 
@@ -99,23 +106,23 @@ class CookieService {
     void deleteCookie(String name, String domain = null) {
         assert name
         log.info "Removing cookie \"${name}\""
-        Cookie cookie = createCookie(name, null, 0)
+        Cookie cookie = createCookie(name, null, COOKIE_AGE_TO_DELETE, null, null, null, null)
         if (domain) {
             cookie.domain = domain
         }
         writeCookieToResponse(cookie)
     }
 
-    private Cookie createCookie(String name, String value, Integer maxAge, String path = '/', String domain = null, Boolean secure = false, Boolean httpOnly = false) {
+    private Cookie createCookie(String name, String value, Integer maxAge, String path, String domain, Boolean secure, Boolean httpOnly) {
         Cookie cookie = new Cookie(name, value)
-        cookie.path = path ?: '/'
-        cookie.maxAge = maxAge
+        cookie.path = path ?: COOKIE_DEFAULT_PATH
+        cookie.maxAge = maxAge != null ? maxAge : defaultCookieAge
         // Cookie.setDomain() tries to lowercase domain name and trow NPE if domain is null
         if (domain) {
             cookie.domain = domain
         }
-        cookie.secure = secure != null ? secure : false
-        cookie.httpOnly = httpOnly != null ? httpOnly : false
+        cookie.secure = secure != null ? secure : COOKIE_DEFAULT_SECURE
+        cookie.httpOnly = httpOnly != null ? httpOnly : COOKIE_DEFAULT_HTTP_ONLY
         cookie.version = 1
         return cookie
     }
