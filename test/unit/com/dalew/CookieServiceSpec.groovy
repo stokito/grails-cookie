@@ -31,7 +31,7 @@ class CookieServiceSpec extends Specification {
         expect: service.findCookie('some_cookie_name') == cookie
     }
 
-    def "getCookie()"() {
+    def "getCookie() return cookie value"() {
         given: request.cookies = [new Cookie('some_cookie_name', 'cookie_value')]
         expect: service.getCookie('some_cookie_name') == 'cookie_value'
     }
@@ -49,7 +49,7 @@ class CookieServiceSpec extends Specification {
         response.cookies[0].maxAge == 2592000
     }
 
-    def "deleteCookie()"() {
+    def "deleteCookie() sets new cookie with same name but expired age"() {
         when: service.deleteCookie('some_cookie_name') == null
         then:
         response.cookies[0].name == 'some_cookie_name'
