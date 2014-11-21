@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 the original author or authors
+ * Copyright 2014 the original author or authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +15,16 @@
  */
 
 import com.dalew.CookieUtils
-import grails.util.Holders
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 
 class CookieGrailsPlugin {
     def version = '1.0-alpha'
     def grailsVersion = '2.1 > *'
-    def author = 'Dale Wiggins'
-    def authorEmail = 'dale@dalew.com'
+    def author = 'Sergey Ponomarev'
+    def authorEmail = 'stokito@gmail.com'
     def title = 'Cookie Plugin'
     def description = 'Makes dealing with cookies easy. Provides an injectable service and expands request with methods to easily get, set, and delete cookies with one line'
     def observe = ['controllers']
-    def documentation = 'https://github.com/dalew75/grails-cookie'
+    def documentation = 'https://github.com/stokito/grails-cookie'
     def license = 'APACHE'
     def developers = [
             [name: 'Dale Wiggins', email: 'dale@dalew.com', role: 'original author'],
