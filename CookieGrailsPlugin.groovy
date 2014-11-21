@@ -18,14 +18,14 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 class CookieGrailsPlugin {
-    def version = '0.52'
+    def version = '0.60'
     def grailsVersion = '2.1 > *'
-    def author = 'Dale Wiggins'
-    def authorEmail = 'dale@dalew.com'
+    def author = 'Sergey Ponomarev'
+    def authorEmail = 'stokito@gmail.com'
     def title = 'Cookie Plugin'
     def description = 'Makes dealing with cookies easy. Provides an injectable service and expands request with methods to easily get, set, and delete cookies with one line'
     def observe = ['controllers']
-    def documentation = 'https://github.com/dalew75/grails-cookie'
+    def documentation = 'https://github.com/stokito/grails-cookie'
     def license = 'APACHE'
     def developers = [
             [name: 'Dale Wiggins', email: 'dale@dalew.com', role: 'original author'],
@@ -50,8 +50,8 @@ class CookieGrailsPlugin {
         HttpServletResponse.metaClass.setCookie = { String name, String value, Integer maxAge = null ->
             return Holders.applicationContext.cookieService.setCookie(name, value, maxAge)
         }
-        HttpServletResponse.metaClass.deleteCookie = { String name, String domain = null ->
-            return Holders.applicationContext.cookieService.deleteCookie(name, domain)
+        HttpServletResponse.metaClass.deleteCookie = { String name ->
+            return Holders.applicationContext.cookieService.deleteCookie(name)
         }
     }
 }

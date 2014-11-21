@@ -107,23 +107,11 @@ class CookieService {
     }
 
     /** Deletes the named cookie */
-    void deleteCookie(String name, String domain = null) {
+    void deleteCookie(String name) {
         assert name
         log.info "Removing cookie \"${name}\""
         Cookie cookie = createCookie(name, null, 0)
-        if (domain) {
-            cookie.domain = domain
-        }
         writeCookieToResponse(cookie)
-    }
-
-    /**
-     * Deletes the named cookie
-     * @deprecated Use {@link #deleteCookie(String)} instead. Will be removed in version 1.0
-     */
-    @Deprecated
-    void delete(String name) {
-        deleteCookie(name)
     }
 
     private Cookie createCookie(String name, String value, int maxAge) {
