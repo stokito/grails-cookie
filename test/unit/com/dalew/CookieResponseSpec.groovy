@@ -15,9 +15,6 @@ abstract class CookieResponseSpec extends Specification {
     protected HttpServletResponse response = new MockHttpServletResponse()
     protected obj
 
-    def setupSpec() {
-    }
-
     def setup() {
         def mockWebRequest = new GrailsWebRequest(new MockHttpServletRequest(), response, new MockServletContext())
         WebUtils.storeGrailsWebRequest(mockWebRequest)
@@ -96,11 +93,11 @@ abstract class CookieResponseSpec extends Specification {
         cookieThatWasSet.httpOnly == httpOnly
         cookieThatWasSet.version == 0
         where:
-        maxAge  | path    | domain         | secure | httpOnly
-        -1      | null    | null           | false  | false
-        42      | '/'     | null           | false  | false
-        42      | '/path' | null           | false  | false
-        42      | '/path' | '.example.com' | true   | true
+        maxAge | path    | domain         | secure | httpOnly
+        -1     | null    | null           | false  | false
+        42     | '/'     | null           | false  | false
+        42     | '/path' | null           | false  | false
+        42     | '/path' | '.example.com' | true   | true
     }
 
     @Unroll

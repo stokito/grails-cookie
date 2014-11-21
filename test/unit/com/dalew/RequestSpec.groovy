@@ -4,7 +4,6 @@ import grails.test.mixin.TestFor
 
 @TestFor(CookieService)
 class RequestSpec extends CookieRequestSpec {
-    @Override
     def setupSpec() {
         CookieUtils.extendReqResp()
     }
