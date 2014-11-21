@@ -63,12 +63,13 @@ You can check out [Demo project](https://github.com/stokito/grails-cookie-demo)
        * Tag `<cookie:get/>`. Use standard `<g:cookie/>` tag instead.
        * Methods `get()`, `set()`, `delete()` from `CookieService`. They are replaced with corresponding `getCookie()`,  `setCookie()`, `deleteCookie()`.
 - #19 All cookies should be Version 1 (by RFC 2109) cookie specifications
-
-### v0.52
-[Source](https://github.com/stokito/grails-cookie/releases/tag/v0.52)
-
+- #22 Support of cookie attributes
 - #10 Improved delete cookie method.  Method delete cookie now can takes a domain name
-- Fixed #3  `deleteCookie` not works in `response`
+
+### v0.60
+[Source](https://github.com/stokito/grails-cookie/releases/tag/v0.60)
+
+- #3 Fixed `deleteCookie` not works in `response`
 - #16 added tests
 - #17 Since v0.5 few things was deprecated and will be removed in version v1.0:
        * Tag `<cookie:get/>`. Use standard `<g:cookie/>` tag instead.
