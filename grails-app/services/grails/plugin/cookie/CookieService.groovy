@@ -74,38 +74,40 @@ class CookieService {
      * @param secure Indicates to the browser whether the cookie should only be sent using a secure protocol, such as HTTPS or SSL.
      * @param httpOnly HttpOnly cookies are not supposed to be exposed to client-side JavaScript code, and may therefore help mitigate certain kinds of cross-site scripting attacks.
      */
-    void setCookie(String name, String value, Integer maxAge = null, String path = COOKIE_DEFAULT_PATH, String domain = null, boolean secure = COOKIE_DEFAULT_SECURE, boolean httpOnly = COOKIE_DEFAULT_HTTP_ONLY) {
+    Cookie setCookie(String name, String value, Integer maxAge = null, String path = COOKIE_DEFAULT_PATH, String domain = null, boolean secure = COOKIE_DEFAULT_SECURE, boolean httpOnly = COOKIE_DEFAULT_HTTP_ONLY) {
         Cookie cookie = createCookie(name, value, maxAge, path, domain, secure, httpOnly)
-        setCookie(cookie)
+        return setCookie(cookie)
     }
 
     /**
      * Sets the cookie with name to value, with age in seconds
      * @param args Named params eg <code>[name: 'cookie_name', value: 'some_val', secure: true] </code>
      */
-    void setCookie(Map args) {
+    Cookie setCookie(Map args) {
         Cookie cookie = createCookie(args.name, args.value, args.maxAge, args.path, args.domain, args.secure, args.httpOnly)
-        setCookie(cookie)
+        return setCookie(cookie)
     }
 
-    /** Sets the cookie */
-    void setCookie(Cookie cookie) {
+    /** Sets the cookie. Note: it doesn't set defaults */
+    Cookie setCookie(Cookie cookie) {
         assert cookie
         log.info "Setting cookie \"${cookie.name}\" to: \"${cookie.value}\" with maxAge: ${cookie.maxAge} seconds"
         writeCookieToResponse(cookie)
+        return cookie
     }
 
     /** Deletes the named cookie */
-    void deleteCookie(String name, String path = null, String domain = null) {
+    Cookie deleteCookie(String name, String path = null, String domain = null) {
         assert name
         log.info "Removing cookie \"${name}\""
         Cookie cookie = createCookie(name, null, COOKIE_AGE_TO_DELETE, path, domain, null, null)
         writeCookieToResponse(cookie)
+        return cookie
     }
 
     /** Deletes the named cookie */
-    void deleteCookie(Cookie cookie) {
-        deleteCookie(cookie.name, cookie.path, cookie.domain)
+    Cookie deleteCookie(Cookie cookie) {
+        return deleteCookie(cookie.name, cookie.path, cookie.domain)
     }
 
     private Cookie createCookie(String name, String value, Integer maxAge, String path, String domain, Boolean secure, Boolean httpOnly) {

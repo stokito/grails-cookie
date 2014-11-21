@@ -27,17 +27,17 @@ abstract class CookieResponseSpec extends Specification {
     @Unroll
     void "setCookie() with args as list: #name #value #maxAge #path #domain #secure #httpOnly"() {
         given:
-        obj.setCookie(args)
-        def cookie = response.cookies[0]
+        def cookieThatWasSet = obj.setCookie(args)
         expect:
-        cookie.name == 'cookie_name'
-        cookie.value == 'cookie_val'
-        cookie.maxAge == maxAge
-        cookie.path == path
-        cookie.domain == domain
-        cookie.secure == secure
-        cookie.httpOnly == httpOnly
-        cookie.version == 1
+        cookieThatWasSet == response.cookies[0]
+        cookieThatWasSet.name == 'cookie_name'
+        cookieThatWasSet.value == 'cookie_val'
+        cookieThatWasSet.maxAge == maxAge
+        cookieThatWasSet.path == path
+        cookieThatWasSet.domain == domain
+        cookieThatWasSet.secure == secure
+        cookieThatWasSet.httpOnly == httpOnly
+        cookieThatWasSet.version == 1
         where:
         args                                                                   | maxAge  | path    | domain         | secure | httpOnly
         ['cookie_name', 'cookie_val']                                          | 2592000 | '/'     | null           | false  | false
@@ -49,9 +49,9 @@ abstract class CookieResponseSpec extends Specification {
     @Unroll
     void "setCookie(): #maxAge #path #domain #secure #httpOnly"() {
         given:
-        obj.setCookie('cookie_name', 'cookie_val', maxAge, path, domain, secure, httpOnly)
-        def cookieThatWasSet = response.cookies[0]
+        def cookieThatWasSet = obj.setCookie('cookie_name', 'cookie_val', maxAge, path, domain, secure, httpOnly)
         expect:
+        cookieThatWasSet == response.cookies[0]
         cookieThatWasSet.name == 'cookie_name'
         cookieThatWasSet.value == 'cookie_val'
         cookieThatWasSet.maxAge == expectedMaxAge
@@ -71,9 +71,9 @@ abstract class CookieResponseSpec extends Specification {
     @Unroll
     void "setCookie() named params: #maxAge #path #domain #secure #httpOnly"() {
         given:
-        obj.setCookie(args)
-        def cookieThatWasSet = response.cookies[0]
+        def cookieThatWasSet = obj.setCookie(args)
         expect:
+        cookieThatWasSet == response.cookies[0]
         cookieThatWasSet.name == 'cookie_name'
         cookieThatWasSet.value == 'cookie_val'
         cookieThatWasSet.maxAge == maxAge
@@ -103,9 +103,9 @@ abstract class CookieResponseSpec extends Specification {
         cookie.secure = secure
         cookie.httpOnly = httpOnly
         cookie.version = 0
-        obj.setCookie(cookie)
-        def cookieThatWasSet = response.cookies[0]
+        def cookieThatWasSet = obj.setCookie(cookie)
         expect:
+        cookieThatWasSet == response.cookies[0]
         cookieThatWasSet.name == 'cookie_name'
         cookieThatWasSet.value == 'some_val'
         cookieThatWasSet.maxAge == maxAge
@@ -125,9 +125,9 @@ abstract class CookieResponseSpec extends Specification {
     @Unroll
     def "deleteCookie() with args as list, sets new cookie with same name but expired age: #path #domain"() {
         given:
-        obj.deleteCookie(args)
-        def cookieThatWasSet = response.cookies[0]
+        def cookieThatWasSet = obj.deleteCookie(args)
         expect:
+        cookieThatWasSet == response.cookies[0]
         cookieThatWasSet.name == 'cookie_name'
         cookieThatWasSet.value == null
         cookieThatWasSet.path == path
@@ -144,9 +144,9 @@ abstract class CookieResponseSpec extends Specification {
     @Unroll
     def "deleteCookie() sets new cookie with same name but expired age: #path #domain"() {
         given:
-        obj.deleteCookie('cookie_name', path, domain)
-        def cookieThatWasSet = response.cookies[0]
+        def cookieThatWasSet = obj.deleteCookie('cookie_name', path, domain)
         expect:
+        cookieThatWasSet == response.cookies[0]
         cookieThatWasSet.name == 'cookie_name'
         cookieThatWasSet.value == null
         cookieThatWasSet.path == pathExpected
@@ -168,9 +168,9 @@ abstract class CookieResponseSpec extends Specification {
         if (domain) {
             cookieToDelete.domain = domain
         }
-        obj.deleteCookie(cookieToDelete)
-        def cookieThatWasSet = response.cookies[0]
+        def cookieThatWasSet = obj.deleteCookie(cookieToDelete)
         expect:
+        cookieThatWasSet == response.cookies[0]
         cookieThatWasSet.name == 'cookie_name'
         cookieThatWasSet.value == null
         cookieThatWasSet.path == pathExpected
