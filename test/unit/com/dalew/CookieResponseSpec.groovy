@@ -117,7 +117,6 @@ abstract class CookieResponseSpec extends Specification {
         ['cookie_name']                          | 'cookie_name' | '/'     | null
         ['cookie_name', '/path']                 | 'cookie_name' | '/path' | null
         ['cookie_name', '/path', '.example.com'] | 'cookie_name' | '/path' | '.example.com'
-
     }
 
     @Unroll
