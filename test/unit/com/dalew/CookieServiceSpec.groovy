@@ -16,6 +16,10 @@ class CookieServiceSpec extends Specification {
     def response = new MockHttpServletResponse()
     def request = new MockHttpServletRequest()
 
+    def setupSpec() {
+        CookieUtils.extendReqResp()
+    }
+
     def setup() {
         def mockWebRequest = new GrailsWebRequest(request, response, new MockServletContext())
         WebUtils.storeGrailsWebRequest(mockWebRequest)
@@ -32,6 +36,7 @@ class CookieServiceSpec extends Specification {
         request.cookies = [cookie]
         expect:
         service.findCookie(name)?.name == expectedCookieName
+        request.findCookie(name)?.name == expectedCookieName
         where:
         name          | expectedCookieName
         'cookie_name' | 'cookie_name'
@@ -44,6 +49,7 @@ class CookieServiceSpec extends Specification {
         request.cookies = [new Cookie('cookie_name', 'cookie_val')]
         expect:
         service.getCookie(name) == expectedValue
+        request.getCookie(name) == expectedValue
         where:
         name          | expectedValue
         'cookie_name' | 'cookie_val'
@@ -95,7 +101,7 @@ class CookieServiceSpec extends Specification {
     }
 
     @Unroll
-    void "setCookie(Cookie) doesn't set defaults: #name #value #maxAge #path #domain #secure #httpOnly"() {
+    void "setCookie(Cookie) doesn't set defaults: #maxAge #path #domain #secure #httpOnly"() {
         given:
         Cookie cookie = new Cookie('cookie_name', 'some_val')
         cookie.path = path
@@ -147,7 +153,7 @@ class CookieServiceSpec extends Specification {
     }
 
     @Unroll
-    def "deleteCookie(Cookie) sets new cookie with same name but expired age: #name #path #domain"() {
+    def "deleteCookie(Cookie) sets new cookie with same name but expired age: #name #pathIncomming #pathOucomming #domain"() {
         given:
         Cookie cookieToDelete = new Cookie(name, 'some_val')
         cookieToDelete.path = pathIncomming
