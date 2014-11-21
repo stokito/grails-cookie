@@ -10,7 +10,7 @@ import spock.lang.Unroll
 
 import javax.servlet.http.Cookie
 
-abstract class CookieGetSpec extends Specification {
+abstract class CookieRequestSpec extends Specification {
     def response = new MockHttpServletResponse()
     def request = new MockHttpServletRequest()
     def obj
