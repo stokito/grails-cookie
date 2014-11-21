@@ -1,9 +1,9 @@
-package com.dalew
+package grails.plugin.cookie
 
 import grails.test.mixin.TestFor
 
 @TestFor(CookieService)
-class CookieServiceResponseSpec extends CookieResponseSpec {
+class CookieServiceRequestSpec extends CookieRequestSpec {
     @Override
     def setup() {
         obj = service

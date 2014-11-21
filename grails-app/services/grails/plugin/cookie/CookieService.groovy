@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.dalew
+package grails.plugin.cookie
 
 import org.codehaus.groovy.grails.web.util.WebUtils
 
 import javax.servlet.http.Cookie
 
-import static com.dalew.CookieUtils.*
+import static CookieUtils.*
 
 /**
  * @author <a href='mailto:dale@dalew.com'>Dale Wiggins</a>

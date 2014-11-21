@@ -1,4 +1,4 @@
-package com.dalew
+package grails.plugin.cookie
 
 import grails.util.Holders
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import com.dalew.CookieUtils
+import grails.plugin.cookie.CookieUtils
 
 class CookieGrailsPlugin {
     def version = '1.0-alpha'
