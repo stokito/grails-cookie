@@ -6,19 +6,33 @@ import org.codehaus.groovy.grails.web.util.WebUtils
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.mock.web.MockServletContext
+import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
 import javax.servlet.http.Cookie
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 @TestFor(CookieService)
 class CookieServiceSpec extends Specification {
-    def response = new MockHttpServletResponse()
-    def request = new MockHttpServletRequest()
+    @Shared
+    HttpServletRequest request
+    @Shared
+    HttpServletResponse response
+    @Shared
+    CookieService cookieService
+
+    def setupSpec() {
+        CookieUtils.extendReqResp()
+    }
 
     def setup() {
+        response = new MockHttpServletResponse()
+        request = new MockHttpServletRequest()
         def mockWebRequest = new GrailsWebRequest(request, response, new MockServletContext())
         WebUtils.storeGrailsWebRequest(mockWebRequest)
+        cookieService = service
     }
 
     def cleanup() {
@@ -30,27 +44,30 @@ class CookieServiceSpec extends Specification {
         def cookie = new Cookie('some_cookie_name', 'cookie_value')
         request.cookies = [cookie]
         expect:
-        service.findCookie('some_cookie_name') == cookie
+        cookieService.findCookie('some_cookie_name') == cookie
     }
 
-    def "getCookie() return cookie value"() {
+    @Unroll
+    def "getCookie() return cookie value: #obj.class.simpleName"() {
         given:
         request.cookies = [new Cookie('some_cookie_name', 'cookie_value')]
         expect:
-        service.getCookie('some_cookie_name') == 'cookie_value'
+        obj.getCookie('some_cookie_name') == 'cookie_value'
+        where:
+        obj << [cookieService, request]
     }
 
     def "getCookie() is case-sensitive"() {
         given:
         request.cookies = [new Cookie('some_cookie_name', 'cookie_value')]
         expect:
-        service.getCookie('SoMe_CoOkIe_NaMe') == null
+        cookieService.getCookie('SoMe_CoOkIe_NaMe') == null
     }
 
     @Unroll
     void "setCookie(): #name #value #maxAge #path #domain #secure #httpOnly"() {
         given:
-        service.setCookie(args)
+        cookieService.setCookie(args)
         def cookie = response.cookies[0]
         expect:
         cookie.name == name
@@ -72,7 +89,7 @@ class CookieServiceSpec extends Specification {
     @Unroll
     void "setCookie() named params: #name #value #maxAge #path #domain #secure #httpOnly"() {
         given:
-        service.setCookie(args)
+        cookieService.setCookie(args)
         def cookie = response.cookies[0]
         expect:
         cookie.name == name
@@ -94,7 +111,7 @@ class CookieServiceSpec extends Specification {
     @Unroll
     def "deleteCookie() sets new cookie with same name but expired age: #name #path #domain"() {
         given:
-        service.deleteCookie(args)
+        cookieService.deleteCookie(args)
         def cookie = response.cookies[0]
         expect:
         cookie.name == name
@@ -119,7 +136,7 @@ class CookieServiceSpec extends Specification {
         if (domain) {
             cookieToDelete.domain = domain
         }
-        service.deleteCookie(cookieToDelete)
+        cookieService.deleteCookie(cookieToDelete)
         def cookie = response.cookies[0]
         expect:
         cookie.name == name
