@@ -6,11 +6,6 @@ import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
-import static com.dalew.CookieUtils.COOKIE_DEFAULT_PATH
-import static com.dalew.CookieUtils.COOKIE_DEFAULT_HTTP_ONLY
-import static com.dalew.CookieUtils.COOKIE_DEFAULT_SECURE
-
-
 class CookieUtils {
     /** 30 days in seconds */
     static final int DEFAULT_COOKIE_AGE = 30 * 24 * 60 * 60
