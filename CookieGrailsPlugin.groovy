@@ -35,10 +35,6 @@ class CookieGrailsPlugin {
     def scm = [url: 'https://github.com/stokito/grails-cookie']
 
     def doWithDynamicMethods = { applicationContext ->
-        extendReqResp()
-    }
-
-    def onChange = { event ->
         CookieUtils.extendReqResp()
     }
 }
