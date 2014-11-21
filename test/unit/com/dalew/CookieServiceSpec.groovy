@@ -48,20 +48,17 @@ class CookieServiceSpec extends Specification {
     }
 
     @Unroll
-    def "getCookie() return cookie value: #obj.class.simpleName"() {
+    def "getCookie() return cookie value and is case sensetive: #obj.class.simpleName #params.name #params.expectedValue"() {
         given:
-        request.cookies = [new Cookie('some_cookie_name', 'cookie_value')]
+        request.cookies = [new Cookie('cookie_name', 'some value')]
         expect:
-        obj.getCookie('some_cookie_name') == 'cookie_value'
+        obj.getCookie(params.name) == params.expectedValue
         where:
-        obj << [cookieService, request]
-    }
-
-    def "getCookie() is case-sensitive"() {
-        given:
-        request.cookies = [new Cookie('some_cookie_name', 'cookie_value')]
-        expect:
-        cookieService.getCookie('SoMe_CoOkIe_NaMe') == null
+        [obj, params] << [
+                [cookieService, request], [
+                [name: 'cookie_name', expectedValue: 'some value'],
+                [name: 'CoOkIe_NaMe', expectedValue: null]
+        ]].combinations()
     }
 
     @Unroll
@@ -122,7 +119,7 @@ class CookieServiceSpec extends Specification {
         cookie.version == 1
         where:
         args                                     | name          | path    | domain
-        ['cookie_name']                          | 'cookie_name' | '/'    | null
+        ['cookie_name']                          | 'cookie_name' | '/'     | null
         ['cookie_name', '/path']                 | 'cookie_name' | '/path' | null
         ['cookie_name', '/path', '.example.com'] | 'cookie_name' | '/path' | '.example.com'
 
