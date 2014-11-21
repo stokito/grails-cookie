@@ -5,7 +5,7 @@ It's [RFC 6265](http://tools.ietf.org/html/rfc6265) compliant.
 
 To install the cookie plug-in just add to `BuildConfig.groovy`:
 ```groovy
-compile ':cookie:0.52'
+compile ':cookie:1.0'
 ```
 
 ## Configuration
@@ -56,7 +56,7 @@ You can check out [Demo project](https://github.com/stokito/grails-cookie-demo)
 
 ## Changelog
 
-### v1.0 pre-release
+### v1.0 Production ready version
 [Source](https://github.com/stokito/grails-cookie/releases/tag/v1.0)
 
 - #17 Since v0.1 all deprecated things was removed:
@@ -66,8 +66,8 @@ You can check out [Demo project](https://github.com/stokito/grails-cookie-demo)
 - #22 Support of cookie attributes
 - #10 Improved delete cookie method.  Method delete cookie now can takes a domain name
 
-### v0.60
-[Source](https://github.com/stokito/grails-cookie/releases/tag/v0.60)
+### v0.60 Last release with deprecated taglib and methods in service
+[Source](https://github.com/stokito/grails-cookie/releases/tag/v0.6)
 
 - #3 Fixed `deleteCookie` not works in `response`
 - #16 added tests
