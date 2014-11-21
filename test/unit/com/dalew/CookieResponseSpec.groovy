@@ -25,13 +25,13 @@ abstract class CookieResponseSpec extends Specification {
     }
 
     @Unroll
-    void "setCookie(): #name #value #maxAge #path #domain #secure #httpOnly"() {
+    void "setCookie() with args as list: #name #value #maxAge #path #domain #secure #httpOnly"() {
         given:
         obj.setCookie(args)
         def cookie = response.cookies[0]
         expect:
-        cookie.name == name
-        cookie.value == value
+        cookie.name == 'cookie_name'
+        cookie.value == 'cookie_val'
         cookie.maxAge == maxAge
         cookie.path == path
         cookie.domain == domain
@@ -39,21 +39,43 @@ abstract class CookieResponseSpec extends Specification {
         cookie.httpOnly == httpOnly
         cookie.version == 1
         where:
-        args                                                                   | name          | value        | maxAge  | path    | domain         | secure | httpOnly
-        ['cookie_name', 'cookie_val']                                          | 'cookie_name' | 'cookie_val' | 2592000 | '/'     | null           | false  | false
-        ['cookie_name', 'cookie_val', 42]                                      | 'cookie_name' | 'cookie_val' | 42      | '/'     | null           | false  | false
-        ['cookie_name', 'cookie_val', 42, '/path']                             | 'cookie_name' | 'cookie_val' | 42      | '/path' | null           | false  | false
-        ['cookie_name', 'cookie_val', 42, '/path', '.example.com', true, true] | 'cookie_name' | 'cookie_val' | 42      | '/path' | '.example.com' | true   | true
+        args                                                                   | maxAge  | path    | domain         | secure | httpOnly
+        ['cookie_name', 'cookie_val']                                          | 2592000 | '/'     | null           | false  | false
+        ['cookie_name', 'cookie_val', 42]                                      | 42      | '/'     | null           | false  | false
+        ['cookie_name', 'cookie_val', 42, '/path']                             | 42      | '/path' | null           | false  | false
+        ['cookie_name', 'cookie_val', 42, '/path', '.example.com', true, true] | 42      | '/path' | '.example.com' | true   | true
     }
 
     @Unroll
-    void "setCookie() named params: #name #value #maxAge #path #domain #secure #httpOnly"() {
+    void "setCookie(): #maxAge #path #domain #secure #httpOnly"() {
+        given:
+        obj.setCookie('cookie_name', 'cookie_val', maxAge, path, domain, secure, httpOnly)
+        def cookie = response.cookies[0]
+        expect:
+        cookie.name == 'cookie_name'
+        cookie.value == 'cookie_val'
+        cookie.maxAge == expectedMaxAge
+        cookie.path == expectedPath
+        cookie.domain == domain
+        cookie.secure == secure
+        cookie.httpOnly == httpOnly
+        cookie.version == 1
+        where:
+        maxAge | expectedMaxAge | path    | expectedPath | domain         | secure | httpOnly
+        null   | 2592000        | null    | '/'          | null           | false  | false
+        42     | 42             | null    | '/'          | null           | false  | false
+        42     | 42             | '/path' | '/path'      | null           | false  | false
+        42     | 42             | '/path' | '/path'      | '.example.com' | true   | true
+    }
+
+    @Unroll
+    void "setCookie() named params: #maxAge #path #domain #secure #httpOnly"() {
         given:
         obj.setCookie(args)
         def cookie = response.cookies[0]
         expect:
-        cookie.name == name
-        cookie.value == value
+        cookie.name == 'cookie_name'
+        cookie.value == 'cookie_val'
         cookie.maxAge == maxAge
         cookie.path == path
         cookie.domain == domain
@@ -61,11 +83,11 @@ abstract class CookieResponseSpec extends Specification {
         cookie.httpOnly == httpOnly
         cookie.version == 1
         where:
-        args                                                                                                                        | name          | value        | maxAge  | path    | domain         | secure | httpOnly
-        [name: 'cookie_name', value: 'cookie_val']                                                                                  | 'cookie_name' | 'cookie_val' | 2592000 | '/'     | null           | false  | false
-        [name: 'cookie_name', value: 'cookie_val', maxAge: 42]                                                                      | 'cookie_name' | 'cookie_val' | 42      | '/'     | null           | false  | false
-        [name: 'cookie_name', value: 'cookie_val', maxAge: 42, path: '/path']                                                       | 'cookie_name' | 'cookie_val' | 42      | '/path' | null           | false  | false
-        [name: 'cookie_name', value: 'cookie_val', maxAge: 42, path: '/path', domain: '.example.com', secure: true, httpOnly: true] | 'cookie_name' | 'cookie_val' | 42      | '/path' | '.example.com' | true   | true
+        args                                                                                                                        | maxAge  | path    | domain         | secure | httpOnly
+        [name: 'cookie_name', value: 'cookie_val']                                                                                  | 2592000 | '/'     | null           | false  | false
+        [name: 'cookie_name', value: 'cookie_val', maxAge: 42]                                                                      | 42      | '/'     | null           | false  | false
+        [name: 'cookie_name', value: 'cookie_val', maxAge: 42, path: '/path']                                                       | 42      | '/path' | null           | false  | false
+        [name: 'cookie_name', value: 'cookie_val', maxAge: 42, path: '/path', domain: '.example.com', secure: true, httpOnly: true] | 42      | '/path' | '.example.com' | true   | true
     }
 
     @Unroll
@@ -101,46 +123,65 @@ abstract class CookieResponseSpec extends Specification {
     }
 
     @Unroll
-    def "deleteCookie() sets new cookie with same name but expired age: #name #path #domain"() {
+    def "deleteCookie() with args as list, sets new cookie with same name but expired age: #path #domain"() {
         given:
         obj.deleteCookie(args)
         def cookie = response.cookies[0]
         expect:
-        cookie.name == name
+        cookie.name == 'cookie_name'
         cookie.value == null
         cookie.path == path
         cookie.domain == domain
         cookie.maxAge == 0
         cookie.version == 1
         where:
-        args                                     | name          | path    | domain
-        ['cookie_name']                          | 'cookie_name' | '/'     | null
-        ['cookie_name', '/path']                 | 'cookie_name' | '/path' | null
-        ['cookie_name', '/path', '.example.com'] | 'cookie_name' | '/path' | '.example.com'
+        args                                     | path    | domain
+        ['cookie_name']                          | '/'     | null
+        ['cookie_name', '/path']                 | '/path' | null
+        ['cookie_name', '/path', '.example.com'] | '/path' | '.example.com'
     }
 
     @Unroll
-    def "deleteCookie(Cookie) sets new cookie with same name but expired age: #name #pathIncomming #pathOucomming #domain"() {
+    def "deleteCookie() sets new cookie with same name but expired age: #path #domain"() {
         given:
-        Cookie cookieToDelete = new Cookie(name, 'some_val')
-        cookieToDelete.path = pathIncomming
+        obj.deleteCookie('cookie_name', path, domain)
+        def cookie = response.cookies[0]
+        expect:
+        cookie.name == 'cookie_name'
+        cookie.value == null
+        cookie.path == pathExpected
+        cookie.domain == domain
+        cookie.maxAge == 0
+        cookie.version == 1
+        where:
+        path    | pathExpected | domain
+        null    | '/'          | null
+        '/path' | '/path'      | null
+        '/path' | '/path'      | '.example.com'
+    }
+
+    @Unroll
+    def "deleteCookie(Cookie) sets new cookie with same name but expired age: #path #pathExpected #domain"() {
+        given:
+        Cookie cookieToDelete = new Cookie('cookie_name', 'some_val')
+        cookieToDelete.path = path
         if (domain) {
             cookieToDelete.domain = domain
         }
         obj.deleteCookie(cookieToDelete)
         def cookie = response.cookies[0]
         expect:
-        cookie.name == name
+        cookie.name == 'cookie_name'
         cookie.value == null
-        cookie.path == pathOucomming
+        cookie.path == pathExpected
         cookie.domain == domain
         cookie.maxAge == 0
         cookie.version == 1
         where:
-        name          | pathIncomming | pathOucomming | domain
-        'cookie_name' | null          | '/'           | null
-        'cookie_name' | '/'           | '/'           | null
-        'cookie_name' | '/path'       | '/path'       | null
-        'cookie_name' | '/path'       | '/path'       | '.example.com'
+        path    | pathExpected | domain
+        null    | '/'          | null
+        '/'     | '/'          | null
+        '/path' | '/path'      | null
+        '/path' | '/path'      | '.example.com'
     }
 }

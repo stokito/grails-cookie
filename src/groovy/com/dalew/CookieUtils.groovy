@@ -27,13 +27,19 @@ class CookieUtils {
             return Holders.applicationContext.cookieService.getCookie(name)
         }
         HttpServletResponse.metaClass.setCookie = { ...args ->
-            assert args.size() == 1
-            Holders.applicationContext.cookieService.setCookie(args[0])
+            if (args.size() == 1 && ((args[0] instanceof List) || (args[0] instanceof Map) || (args[0] instanceof Cookie))) {
+                Holders.applicationContext.cookieService.setCookie(args[0])
+            } else {
+                Holders.applicationContext.cookieService.setCookie(args as List)
+            }
             return null
         }
         HttpServletResponse.metaClass.deleteCookie = { ...args ->
-            assert args.size() == 1
-            Holders.applicationContext.cookieService.deleteCookie(args[0])
+            if (args.size() == 1 && ((args[0] instanceof List) || (args[0] instanceof Cookie))) {
+                Holders.applicationContext.cookieService.deleteCookie(args[0])
+            } else {
+                Holders.applicationContext.cookieService.deleteCookie(args as List)
+            }
             return null
         }
     }
