@@ -26,14 +26,14 @@ class CookieServiceSpec extends Specification {
     }
 
     @Unroll
-    def "findCookie() return cookie and is case-sensitive by name: #name #expectedCookiName"() {
+    def "findCookie() return cookie and is case-sensitive by name: #name #expectedCookieName"() {
         given:
         def cookie = new Cookie('cookie_name', 'cookie_val')
         request.cookies = [cookie]
         expect:
-        service.findCookie(name)?.name == expectedCookiName
+        service.findCookie(name)?.name == expectedCookieName
         where:
-        name          | expectedCookiName
+        name          | expectedCookieName
         'cookie_name' | 'cookie_name'
         'CoOkIe_NaMe' | null
     }
@@ -92,6 +92,38 @@ class CookieServiceSpec extends Specification {
         [name: 'cookie_name', value: 'cookie_val', maxAge: 42]                                                                      | 'cookie_name' | 'cookie_val' | 42      | '/'     | null           | false  | false
         [name: 'cookie_name', value: 'cookie_val', maxAge: 42, path: '/path']                                                       | 'cookie_name' | 'cookie_val' | 42      | '/path' | null           | false  | false
         [name: 'cookie_name', value: 'cookie_val', maxAge: 42, path: '/path', domain: '.example.com', secure: true, httpOnly: true] | 'cookie_name' | 'cookie_val' | 42      | '/path' | '.example.com' | true   | true
+    }
+
+    @Unroll
+    void "setCookie(Cookie) doesn't set defaults: #name #value #maxAge #path #domain #secure #httpOnly"() {
+        given:
+        Cookie cookie = new Cookie('cookie_name', 'some_val')
+        cookie.path = path
+        cookie.maxAge = maxAge
+        cookie.path = path
+        if (domain) {
+            cookie.domain = domain
+        }
+        cookie.secure = secure
+        cookie.httpOnly = httpOnly
+        cookie.version = 0
+        service.setCookie(cookie)
+        def cookieThatWasSet = response.cookies[0]
+        expect:
+        cookieThatWasSet.name == 'cookie_name'
+        cookieThatWasSet.value == 'some_val'
+        cookieThatWasSet.maxAge == maxAge
+        cookieThatWasSet.path == path
+        cookieThatWasSet.domain == domain
+        cookieThatWasSet.secure == secure
+        cookieThatWasSet.httpOnly == httpOnly
+        cookieThatWasSet.version == 0
+        where:
+        maxAge  | path    | domain         | secure | httpOnly
+        -1      | null    | null           | false  | false
+        42      | '/'     | null           | false  | false
+        42      | '/path' | null           | false  | false
+        42      | '/path' | '.example.com' | true   | true
     }
 
     @Unroll

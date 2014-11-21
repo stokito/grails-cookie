@@ -25,12 +25,6 @@ import javax.servlet.http.Cookie
  * @author <a href='mailto:donbeave@gmail.com'>Alexey Zhokhov</a>
  */
 class CookieService {
-    static final int DEFAULT_COOKIE_AGE = 30 * 24 * 60 * 60
-    static final String COOKIE_DEFAULT_PATH = '/'
-    static final boolean COOKIE_DEFAULT_SECURE = false
-    static final boolean COOKIE_DEFAULT_HTTP_ONLY = false
-    static final int COOKIE_AGE_TO_DELETE = 0
-    // 30 days in seconds
     boolean transactional = false
     def grailsApplication
 
@@ -78,7 +72,7 @@ class CookieService {
      * @param secure Indicates to the browser whether the cookie should only be sent using a secure protocol, such as HTTPS or SSL.
      * @param httpOnly HttpOnly cookies are not supposed to be exposed to client-side JavaScript code, and may therefore help mitigate certain kinds of cross-site scripting attacks.
      */
-    void setCookie(String name, String value, Integer maxAge = null, String path = COOKIE_DEFAULT_PATH, String domain = null, boolean secure = COOKIE_DEFAULT_SECURE, boolean httpOnly = COOKIE_DEFAULT_HTTP_ONLY) {
+    void setCookie(String name, String value, Integer maxAge = null, String path = CookieUtils.COOKIE_DEFAULT_PATH, String domain = null, boolean secure = CookieUtils.COOKIE_DEFAULT_SECURE, boolean httpOnly = CookieUtils.COOKIE_DEFAULT_HTTP_ONLY) {
         Cookie cookie = createCookie(name, value, maxAge, path, domain, secure, httpOnly)
         setCookie(cookie)
     }
@@ -103,7 +97,7 @@ class CookieService {
     void deleteCookie(String name, String path = null, String domain = null) {
         assert name
         log.info "Removing cookie \"${name}\""
-        Cookie cookie = createCookie(name, null, COOKIE_AGE_TO_DELETE, path, domain, null, null)
+        Cookie cookie = createCookie(name, null, CookieUtils.COOKIE_AGE_TO_DELETE, path, domain, null, null)
         writeCookieToResponse(cookie)
     }
 
@@ -114,14 +108,14 @@ class CookieService {
 
     private Cookie createCookie(String name, String value, Integer maxAge, String path, String domain, Boolean secure, Boolean httpOnly) {
         Cookie cookie = new Cookie(name, value)
-        cookie.path = path ?: COOKIE_DEFAULT_PATH
+        cookie.path = path ?: CookieUtils.COOKIE_DEFAULT_PATH
         cookie.maxAge = maxAge != null ? maxAge : defaultCookieAge
         // Cookie.setDomain() tries to lowercase domain name and trow NPE if domain is null
         if (domain) {
             cookie.domain = domain
         }
-        cookie.secure = secure != null ? secure : COOKIE_DEFAULT_SECURE
-        cookie.httpOnly = httpOnly != null ? httpOnly : COOKIE_DEFAULT_HTTP_ONLY
+        cookie.secure = secure != null ? secure : CookieUtils.COOKIE_DEFAULT_SECURE
+        cookie.httpOnly = httpOnly != null ? httpOnly : CookieUtils.COOKIE_DEFAULT_HTTP_ONLY
         cookie.version = 1
         return cookie
     }
@@ -132,6 +126,6 @@ class CookieService {
     }
 
     private int getDefaultCookieAge() {
-        return grailsApplication.config.grails?.plugins?.cookie?.cookieage?.default ?: DEFAULT_COOKIE_AGE
+        return grailsApplication.config.grails?.plugins?.cookie?.cookieage?.default ?: CookieUtils.DEFAULT_COOKIE_AGE
     }
 }
