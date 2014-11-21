@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 class CookieGrailsPlugin {
-    def version = '0.52'
+    def version = '1.0-alpha'
     def grailsVersion = '2.1 > *'
     def author = 'Dale Wiggins'
     def authorEmail = 'dale@dalew.com'
