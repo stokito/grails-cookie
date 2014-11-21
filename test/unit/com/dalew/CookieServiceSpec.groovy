@@ -25,26 +25,29 @@ class CookieServiceSpec extends Specification {
         WebUtils.clearGrailsWebRequest()
     }
 
-    def "findCookie()"() {
+    @Unroll
+    def "findCookie() return cookie and is case-sensitive by name: #name #expectedCookiName"() {
         given:
-        def cookie = new Cookie('some_cookie_name', 'cookie_value')
+        def cookie = new Cookie('cookie_name', 'cookie_val')
         request.cookies = [cookie]
         expect:
-        service.findCookie('some_cookie_name') == cookie
+        service.findCookie(name)?.name == expectedCookiName
+        where:
+        name          | expectedCookiName
+        'cookie_name' | 'cookie_name'
+        'CoOkIe_NaMe' | null
     }
 
-    def "getCookie() return cookie value"() {
+    @Unroll
+    def "getCookie() return cookie value and is case-sensitive by name: #name #expectedValue"() {
         given:
-        request.cookies = [new Cookie('some_cookie_name', 'cookie_value')]
+        request.cookies = [new Cookie('cookie_name', 'cookie_val')]
         expect:
-        service.getCookie('some_cookie_name') == 'cookie_value'
-    }
-
-    def "getCookie() is case-sensitive"() {
-        given:
-        request.cookies = [new Cookie('some_cookie_name', 'cookie_value')]
-        expect:
-        service.getCookie('SoMe_CoOkIe_NaMe') == null
+        service.getCookie(name) == expectedValue
+        where:
+        name          | expectedValue
+        'cookie_name' | 'cookie_val'
+        'CoOkIe_NaMe' | null
     }
 
     @Unroll
@@ -105,7 +108,7 @@ class CookieServiceSpec extends Specification {
         cookie.version == 1
         where:
         args                                     | name          | path    | domain
-        ['cookie_name']                          | 'cookie_name' | '/'    | null
+        ['cookie_name']                          | 'cookie_name' | '/'     | null
         ['cookie_name', '/path']                 | 'cookie_name' | '/path' | null
         ['cookie_name', '/path', '.example.com'] | 'cookie_name' | '/path' | '.example.com'
 
