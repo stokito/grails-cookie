@@ -28,8 +28,8 @@ class CookieUtils {
         HttpServletResponse.metaClass.setCookie = { String name, String value, Integer maxAge = null, String path = COOKIE_DEFAULT_PATH, String domain = null, boolean secure = COOKIE_DEFAULT_SECURE, boolean httpOnly = COOKIE_DEFAULT_HTTP_ONLY ->
             return Holders.applicationContext.cookieService.setCookie(name, value, maxAge)
         }
-        HttpServletResponse.metaClass.deleteCookie = { String name, String domain = null ->
-            return Holders.applicationContext.cookieService.deleteCookie(name, domain)
+        HttpServletResponse.metaClass.deleteCookie = { String name, String path = null, String domain = null ->
+            return Holders.applicationContext.cookieService.deleteCookie(name, path, domain)
         }
     }
 }

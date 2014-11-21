@@ -12,8 +12,8 @@ import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletResponse
 
 abstract class CookieResponseSpec extends Specification {
-    HttpServletResponse response = new MockHttpServletResponse()
-    def obj
+    protected HttpServletResponse response = new MockHttpServletResponse()
+    protected obj
 
     def setupSpec() {
     }

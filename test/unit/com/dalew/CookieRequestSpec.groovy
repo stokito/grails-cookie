@@ -12,11 +12,8 @@ import javax.servlet.http.Cookie
 import javax.servlet.http.HttpServletRequest
 
 abstract class CookieRequestSpec extends Specification {
-    HttpServletRequest request = new MockHttpServletRequest()
-    def obj
-
-    def setupSpec() {
-    }
+    protected HttpServletRequest request = new MockHttpServletRequest()
+    protected obj
 
     def setup() {
         def mockWebRequest = new GrailsWebRequest(request, new MockHttpServletResponse(), new MockServletContext())
