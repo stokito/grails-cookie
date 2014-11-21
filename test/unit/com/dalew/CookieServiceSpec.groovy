@@ -11,13 +11,13 @@ import spock.lang.Unroll
 
 import javax.servlet.http.Cookie
 
-@TestFor(CookieService)
-class CookieServiceSpec extends Specification {
+abstract class CookieServiceSpec extends Specification {
+
     def response = new MockHttpServletResponse()
     def request = new MockHttpServletRequest()
+    def obj
 
     def setupSpec() {
-        CookieUtils.extendReqResp()
     }
 
     def setup() {
@@ -35,8 +35,7 @@ class CookieServiceSpec extends Specification {
         def cookie = new Cookie('cookie_name', 'cookie_val')
         request.cookies = [cookie]
         expect:
-        service.findCookie(name)?.name == expectedCookieName
-        request.findCookie(name)?.name == expectedCookieName
+        obj.findCookie(name)?.name == expectedCookieName
         where:
         name          | expectedCookieName
         'cookie_name' | 'cookie_name'
@@ -48,8 +47,7 @@ class CookieServiceSpec extends Specification {
         given:
         request.cookies = [new Cookie('cookie_name', 'cookie_val')]
         expect:
-        service.getCookie(name) == expectedValue
-        request.getCookie(name) == expectedValue
+        obj.getCookie(name) == expectedValue
         where:
         name          | expectedValue
         'cookie_name' | 'cookie_val'
@@ -59,7 +57,7 @@ class CookieServiceSpec extends Specification {
     @Unroll
     void "setCookie(): #name #value #maxAge #path #domain #secure #httpOnly"() {
         given:
-        service.setCookie(args)
+        obj.setCookie(args)
         def cookie = response.cookies[0]
         expect:
         cookie.name == name
@@ -81,7 +79,7 @@ class CookieServiceSpec extends Specification {
     @Unroll
     void "setCookie() named params: #name #value #maxAge #path #domain #secure #httpOnly"() {
         given:
-        service.setCookie(args)
+        obj.setCookie(args)
         def cookie = response.cookies[0]
         expect:
         cookie.name == name
@@ -113,7 +111,7 @@ class CookieServiceSpec extends Specification {
         cookie.secure = secure
         cookie.httpOnly = httpOnly
         cookie.version = 0
-        service.setCookie(cookie)
+        obj.setCookie(cookie)
         def cookieThatWasSet = response.cookies[0]
         expect:
         cookieThatWasSet.name == 'cookie_name'
@@ -135,7 +133,7 @@ class CookieServiceSpec extends Specification {
     @Unroll
     def "deleteCookie() sets new cookie with same name but expired age: #name #path #domain"() {
         given:
-        service.deleteCookie(args)
+        obj.deleteCookie(args)
         def cookie = response.cookies[0]
         expect:
         cookie.name == name
@@ -160,7 +158,7 @@ class CookieServiceSpec extends Specification {
         if (domain) {
             cookieToDelete.domain = domain
         }
-        service.deleteCookie(cookieToDelete)
+        obj.deleteCookie(cookieToDelete)
         def cookie = response.cookies[0]
         expect:
         cookie.name == name
