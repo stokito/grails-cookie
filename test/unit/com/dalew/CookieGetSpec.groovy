@@ -1,6 +1,5 @@
 package com.dalew
 
-import grails.test.mixin.TestFor
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest
 import org.codehaus.groovy.grails.web.util.WebUtils
 import org.springframework.mock.web.MockHttpServletRequest
@@ -11,8 +10,7 @@ import spock.lang.Unroll
 
 import javax.servlet.http.Cookie
 
-abstract class CookieServiceSpec extends Specification {
-
+abstract class CookieGetSpec extends Specification {
     def response = new MockHttpServletResponse()
     def request = new MockHttpServletRequest()
     def obj
