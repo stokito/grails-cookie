@@ -1,8 +1,15 @@
 package grails.plugin.cookie
 
 import grails.test.mixin.TestFor
+import org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest
+import org.codehaus.groovy.grails.web.util.WebUtils
+import org.springframework.mock.web.MockHttpServletRequest
+import org.springframework.mock.web.MockHttpServletResponse
+import org.springframework.mock.web.MockServletContext
 import spock.lang.Specification
 import spock.lang.Unroll
+import static grails.plugin.cookie.CookieUtils.COOKIE_DEFAULT_HTTP_ONLY
+
 
 @TestFor(CookieService)
 class CookieServiceDefaultsSpec extends Specification {
@@ -34,5 +41,40 @@ class CookieServiceDefaultsSpec extends Specification {
         'root'          | null    | '/'          | ''
         'current'       | null    | null         | ''
         null            | '/path' | '/path'      | ''
+    }
+
+    @Unroll
+    void "getDefaultCookieSecure(): #requestSecure #defaultSecure #secure #expectedSecure #comment"() {
+        given:
+        def request = new MockHttpServletRequest()
+        request.secure = requestSecure
+        def mockWebRequest = new GrailsWebRequest(request, new MockHttpServletResponse(), new MockServletContext())
+        WebUtils.storeGrailsWebRequest(mockWebRequest)
+        service.grailsApplication.config.grails.plugins.cookie.secure.default = defaultSecure
+        expect:
+        service.getDefaultCookieSecure(secure) == expectedSecure
+        where:
+        requestSecure | defaultSecure | secure | expectedSecure | comment
+        false         | null          | true   | true           | ''
+        false         | null          | false  | false          | ''
+        false         | true          | null   | true           | ''
+        false         | false         | null   | false          | ''
+        false         | null          | null   | false          | ''
+        true          | null          | null   | true           | ''
+    }
+
+    @Unroll
+    void "getDefaultCookieHttpOnly(): #defaultHttpOnly #httpOnly #expectedHttpOnly #comment"() {
+        given:
+        service.grailsApplication.config.grails.plugins.cookie.httpOnly.default = defaultHttpOnly
+        expect:
+        service.getDefaultCookieHttpOnly(httpOnly) == expectedHttpOnly
+        where:
+        defaultHttpOnly | httpOnly | expectedHttpOnly         | comment
+        null            | true     | true                     | ''
+        null            | false    | false                    | ''
+        true            | null     | true                     | ''
+        false           | null     | false                    | ''
+        null            | null     | COOKIE_DEFAULT_HTTP_ONLY | ''
     }
 }

@@ -74,7 +74,7 @@ class CookieService {
      * @param secure Indicates to the browser whether the cookie should only be sent using a secure protocol, such as HTTPS or SSL.
      * @param httpOnly HttpOnly cookies are not supposed to be exposed to client-side JavaScript code, and may therefore help mitigate certain kinds of cross-site scripting attacks.
      */
-    Cookie setCookie(String name, String value, Integer maxAge = null, String path = COOKIE_DEFAULT_PATH, String domain = null, boolean secure = COOKIE_DEFAULT_SECURE, boolean httpOnly = COOKIE_DEFAULT_HTTP_ONLY) {
+    Cookie setCookie(String name, String value, Integer maxAge = null, String path = null, String domain = null, boolean secure = null, boolean httpOnly = null) {
         Cookie cookie = createCookie(name, value, maxAge, path, domain, secure, httpOnly)
         return setCookie(cookie)
     }
@@ -118,8 +118,8 @@ class CookieService {
         if (domain) {
             cookie.domain = domain
         }
-        cookie.secure = secure != null ? secure : COOKIE_DEFAULT_SECURE
-        cookie.httpOnly = httpOnly != null ? httpOnly : COOKIE_DEFAULT_HTTP_ONLY
+        cookie.secure = getDefaultCookieSecure(secure)
+        cookie.httpOnly = getDefaultCookieHttpOnly(httpOnly)
         cookie.version = 1
         return cookie
     }
@@ -134,6 +134,35 @@ class CookieService {
     }
 
     String getDefaultCookiePath(String path) {
-        return path ?: COOKIE_DEFAULT_PATH
+        if (path) {
+            return path
+        } else if (grailsApplication.config.grails?.plugins?.cookie?.defaultStrategy == 'root') {
+            return '/'
+        } else if (grailsApplication.config.grails?.plugins?.cookie?.defaultStrategy == 'current') {
+            return null
+        } else {
+            return grailsApplication.config.grails?.app?.context
+        }
     }
+
+    boolean getDefaultCookieSecure(Boolean secure) {
+        if (secure != null) {
+            return secure
+        } else if (grailsApplication.config.grails?.plugins?.cookie?.secure?.default != null) {
+            return grailsApplication.config.grails.plugins.cookie.secure.default
+        } else {
+            return WebUtils.retrieveGrailsWebRequest().currentRequest.isSecure()
+        }
+    }
+
+    boolean getDefaultCookieHttpOnly(Boolean httpOnly) {
+        if (httpOnly != null) {
+            return httpOnly
+        } else if (grailsApplication.config.grails?.plugins?.cookie?.httpOnly?.default != null) {
+            return grailsApplication.config.grails.plugins.cookie.httpOnly.default
+        } else {
+            return COOKIE_DEFAULT_HTTP_ONLY
+        }
+    }
+
 }
