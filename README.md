@@ -55,9 +55,9 @@ cookieService.deleteCookie('username')
 
 ## Configuration
 Default expiration age for cookie in seconds. `Max-Age` attribute, integer
-If it has value -1 cookie will not stored and removed after browser close.
+If it has value `-1` cookie will not stored and removed after browser close.
 If it has null value or unset, will be used 30 days, i.e. 2592000 seconds
-Can't has value 0, because it means that cookie should be removed
+Can't has value `0`, because it means that cookie should be removed
 ```groovy
 grails.plugins.cookie.cookieage.default = 360 * 24 * 60 * 60
 ```
@@ -78,7 +78,7 @@ grails.plugins.cookie.secure.default = null
 ```
 
 Default HTTP only param that denies accessing to JavaScript's `document.cookie`.
-If null or unset
+If null or unset will be `true
 ```groovy
 grails.plugins.cookie.httpOnly.default = true
 ```
