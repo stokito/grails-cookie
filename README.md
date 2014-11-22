@@ -19,7 +19,7 @@ grails.plugins.cookie.cookieage.default = 86400 // if not specified default in c
 
 You have two ways to work with cookies:
 * The cookie plug-in extends the `request` and `response` objects found in controllers, filters, etc to allow the following.
-* The cookie plug-in provides a [CookieService](./grails-app/services/com/dalew/CookieService.groovy) that can be used anywhere in your Grails application.
+* The cookie plug-in provides a [CookieService](./grails-app/services/grails/plugin/cookie/CookieService.groovy) that can be used anywhere in your Grails application.
 
 Example of setting a new cookie:
 ```groovy
@@ -53,6 +53,10 @@ def cookieService // define field for DI
 cookieService.deleteCookie('username')
 ```
 
+All this methods has other signatures and you can find all of them in [CookieService](./grails-app/services/grails/plugin/cookie/CookieService.groovy) JavaDoc's.
+
+You can check out [Demo project](https://github.com/stokito/grails-cookie-demo) and also you can find details of implementation in [CookieRequestSpec](./test/unit/grails/plugin/cookie/CookieRequestSpec.groovy) and [CookieResponseSpec](./test/unit/grails/plugin/cookie/CookieResponseSpec.groovy).
+
 ## Configuration
 
 You can configure default values of attributes in `Config.groovy`.
@@ -85,27 +89,29 @@ If null or unset will be `true`
 ```groovy
 grails.plugins.cookie.httpOnly.default = true
 ```
-
-You can check out [Demo project](https://github.com/stokito/grails-cookie-demo)
+You can find details of implementation in [CookieServiceDefaultsSpec](./test/unit/grails/plugin/cookie/CookieServiceDefaultsSpec.groovy).
 
 ## Changelog
 
 ### v1.0 Production ready version
 [Source](https://github.com/stokito/grails-cookie/releases/tag/v1.0)
 
-- #17 Since v0.1 all deprecated things was removed:
+- [#17](https://github.com/stokito/grails-cookie/issues/17) Since v0.1 all deprecated things was removed:
        * Tag `<cookie:get/>`. Use standard `<g:cookie/>` tag instead.
        * Methods `get()`, `set()`, `delete()` from `CookieService`. They are replaced with corresponding `getCookie()`,  `setCookie()`, `deleteCookie()`.
-- #19 All cookies should be Version 1 (by RFC 2109) cookie specifications
-- #22 Support of cookie attributes
-- #10 Improved delete cookie method.  Method delete cookie now can takes a domain name
+- [#19](https://github.com/stokito/grails-cookie/issues/19) All cookies should be Version 1 (by RFC 2109) cookie specifications
+- [#22](https://github.com/stokito/grails-cookie/issues/22) Support of cookie attributes
+- [#10](https://github.com/stokito/grails-cookie/issues/10) Improved delete cookie method.  Method delete cookie now can takes a domain name
+- [#28](https://github.com/stokito/grails-cookie/issues/28) `setCookie()` and `deleteCookie()` should return added cookie
+- [#25](https://github.com/stokito/grails-cookie/issues/25) Make default `path`, `secure` and `httpOnly` configurable and more intelligent  enhancement
+
 
 ### v0.60 Last release with deprecated taglib and methods in service
 [Source](https://github.com/stokito/grails-cookie/releases/tag/v0.6)
 
-- #3 Fixed `deleteCookie` not works in `response`
-- #16 added tests
-- #17 Since v0.5 few things was deprecated and will be removed in version v1.0:
+- [#3](https://github.com/stokito/grails-cookie/issues/3) Fixed `deleteCookie` not works in `response`
+- [#16](https://github.com/stokito/grails-cookie/issues/16) added tests
+- [#17](https://github.com/stokito/grails-cookie/issues/17) Since v0.5 few things was deprecated and will be removed in version v1.0:
        * Tag `<cookie:get/>`. Use standard `<g:cookie/>` tag instead.
        * Methods `get()`, `set()`, `delete()` from `CookieService`. They are replaced with corresponding `getCookie()`,  `setCookie()`, `deleteCookie()`.
 
