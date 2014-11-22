@@ -54,16 +54,19 @@ cookieService.deleteCookie('username')
 ```
 
 ## Configuration
+
+You can configure default values of attributes in `Config.groovy`.
+
 Default expiration age for cookie in seconds. `Max-Age` attribute, integer
 If it has value `-1` cookie will not stored and removed after browser close.
-If it has null value or unset, will be used 30 days, i.e. 2592000 seconds
+If it has null value or unset, will be used 30 days, i.e. `2592000` seconds
 Can't has value `0`, because it means that cookie should be removed
 ```groovy
 grails.plugins.cookie.cookieage.default = 360 * 24 * 60 * 60
 ```
 
 Default path for cookie selection strategy.
-* 'context' - web app context path, i.e. `grails.app.context` option in Config.groovy
+* 'context' - web app context path, i.e. `grails.app.context` option in `Config.groovy`
 * 'root' - root of server, i.e. '/'
 * 'current' - current directory, i.e. controller name
 If default path is null or unset, it will be used 'context' strategy
@@ -78,7 +81,7 @@ grails.plugins.cookie.secure.default = null
 ```
 
 Default HTTP only param that denies accessing to JavaScript's `document.cookie`.
-If null or unset will be `true
+If null or unset will be `true`
 ```groovy
 grails.plugins.cookie.httpOnly.default = true
 ```

@@ -128,10 +128,23 @@ class CookieService {
         log.info "cookie set: ${cookie.name} = ${cookie.value}, Max-Age: ${cookie.maxAge}, Path: ${cookie.path}, Domain: ${cookie.domain}, HttpOnly: ${cookie.httpOnly}, Secure: ${cookie.secure}"
     }
 
+    /**
+     * Default expiration age for cookie in seconds. `Max-Age` attribute, integer
+     * If it has value `-1` cookie will not stored and removed after browser close.
+     * If it has null value or unset, will be used 30 days, i.e. `2592000` seconds
+     * Can't has value `0`, because it means that cookie should be removed
+     */
     int getDefaultCookieAge(Integer maxAge) {
         return maxAge != null ? maxAge : (grailsApplication.config.grails?.plugins?.cookie?.cookieage?.default ?: DEFAULT_COOKIE_AGE)
     }
 
+    /*
+     * Default path for cookie selection strategy.
+     * 'context' - web app context path, i.e. `grails.app.context` option in `Config.groovy`
+     * 'root' - root of server, i.e. '/'
+     * 'current' - current directory, i.e. controller name
+     * If default path is null or unset, it will be used 'context' strategy
+     */
     String getDefaultCookiePath(String path) {
         if (path) {
             return path
@@ -144,6 +157,7 @@ class CookieService {
         }
     }
 
+    /** If default secure is null or unset, it will set all new cookies as secure if current connection is secure */
     boolean getDefaultCookieSecure(Boolean secure) {
         if (secure != null) {
             return secure
@@ -154,6 +168,7 @@ class CookieService {
         }
     }
 
+    /** Default HTTP only param that denies accessing to JavaScript's `document.cookie`. If null or unset will be `true` */
     boolean getDefaultCookieHttpOnly(Boolean httpOnly) {
         if (httpOnly != null) {
             return httpOnly
