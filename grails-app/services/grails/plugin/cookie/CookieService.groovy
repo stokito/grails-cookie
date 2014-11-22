@@ -113,7 +113,7 @@ class CookieService {
     private Cookie createCookie(String name, String value, Integer maxAge, String path, String domain, Boolean secure, Boolean httpOnly) {
         Cookie cookie = new Cookie(name, value)
         cookie.path = path ?: COOKIE_DEFAULT_PATH
-        cookie.maxAge = maxAge != null ? maxAge : defaultCookieAge
+        cookie.maxAge = getDefaultCookieAge(maxAge)
         // Cookie.setDomain() tries to lowercase domain name and trow NPE if domain is null
         if (domain) {
             cookie.domain = domain
@@ -129,7 +129,7 @@ class CookieService {
         log.info "cookie added: ${cookie.name} = ${cookie.value}"
     }
 
-    private int getDefaultCookieAge() {
-        return grailsApplication.config.grails?.plugins?.cookie?.cookieage?.default ?: DEFAULT_COOKIE_AGE
+    int getDefaultCookieAge(Integer maxAge) {
+        return maxAge != null ? maxAge : (grailsApplication.config.grails?.plugins?.cookie?.cookieage?.default ?: DEFAULT_COOKIE_AGE)
     }
 }
