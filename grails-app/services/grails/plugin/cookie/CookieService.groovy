@@ -90,7 +90,7 @@ class CookieService {
     /** Sets the cookie. Note: it doesn't set defaults */
     Cookie setCookie(Cookie cookie) {
         assert cookie
-        log.info "Setting cookie \"${cookie.name}\" to: \"${cookie.value}\" with maxAge: ${cookie.maxAge} seconds"
+        log.info 'Setting cookie'
         writeCookieToResponse(cookie)
         return cookie
     }
@@ -98,7 +98,7 @@ class CookieService {
     /** Deletes the named cookie */
     Cookie deleteCookie(String name, String path = null, String domain = null) {
         assert name
-        log.info "Removing cookie \"${name}\""
+        log.info 'Removing cookie'
         Cookie cookie = createCookie(name, null, COOKIE_AGE_TO_DELETE, path, domain, null, null)
         writeCookieToResponse(cookie)
         return cookie
@@ -125,7 +125,7 @@ class CookieService {
 
     private void writeCookieToResponse(Cookie cookie) {
         WebUtils.retrieveGrailsWebRequest().currentResponse.addCookie(cookie)
-        log.info "cookie added: ${cookie.name} = ${cookie.value}"
+        log.info "cookie set: ${cookie.name} = ${cookie.value}, Max-Age: ${cookie.maxAge}, Path: ${cookie.path}, Domain: ${cookie.domain}, HttpOnly: ${cookie.httpOnly}, Secure: ${cookie.secure}"
     }
 
     int getDefaultCookieAge(Integer maxAge) {
