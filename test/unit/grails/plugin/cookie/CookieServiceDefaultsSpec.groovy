@@ -8,7 +8,7 @@ import spock.lang.Unroll
 class CookieServiceDefaultsSpec extends Specification {
 
     @Unroll
-    void "setCookie() with args as list: #defaulAge #maxAge #expectedMaxAge #comment"() {
+    void "getDefaultCookieAge(): #defaulAge #maxAge #expectedMaxAge #comment"() {
         given:
         service.grailsApplication.config.grails.plugins.cookie.cookieage.default = defaulAge
         expect:
@@ -18,5 +18,21 @@ class CookieServiceDefaultsSpec extends Specification {
         -1        | 42     | 42             | 'max gae directly'
         777       | null   | 777            | 'If max age is null it will be used from config'
         null      | null   | 2592000        | 'If config unset, will be used 30 days'
+    }
+
+    @Unroll
+    void "getDefaultCookiePath(): #defaultStrategy #path #expectedPath #comment"() {
+        given:
+        service.grailsApplication.config.grails.app.context = '/ctx'
+        service.grailsApplication.config.grails.plugins.cookie.defaultStrategy = defaultStrategy
+        expect:
+        service.getDefaultCookiePath(path) == expectedPath
+        where:
+        defaultStrategy | path    | expectedPath | comment
+        null            | null    | '/ctx'       | 'context option will used if not set'
+        'context'       | null    | '/ctx'       | ''
+        'root'          | null    | '/'          | ''
+        'current'       | null    | null         | ''
+        null            | '/path' | '/path'      | ''
     }
 }
