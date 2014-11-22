@@ -1,4 +1,7 @@
+# Grails Cookie Plugin
+
 This plugin makes dealing with cookies easy. Provides an injectable service and tag to easily get, set, and delete cookies with one line.
+
 It's [RFC 6265](http://tools.ietf.org/html/rfc6265) compliant.
 
 ## Installation
@@ -105,6 +108,8 @@ grails.plugins.cookie.httpOnly.default = true
 You can find details of implementation in [CookieServiceDefaultsSpec](./test/unit/grails/plugin/cookie/CookieServiceDefaultsSpec.groovy).
 
 ## Changelog
+
+[All releases](https://github.com/stokito/grails-cookie/releases)
 
 ### v1.0 Production ready version
 [Source](https://github.com/stokito/grails-cookie/releases/tag/v1.0)
