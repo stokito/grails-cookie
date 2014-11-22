@@ -61,34 +61,47 @@ You can check out [Demo project](https://github.com/stokito/grails-cookie-demo) 
 
 You can configure default values of attributes in `Config.groovy`.
 
-Default expiration age for cookie in seconds. `Max-Age` attribute, integer
+### Default Max Age
+Default expiration age for cookie in seconds. `Max-Age` attribute, integer.
+
 If it has value `-1` cookie will not stored and removed after browser close.
-If it has null value or unset, will be used 30 days, i.e. `2592000` seconds
-Can't has value `0`, because it means that cookie should be removed
+
+If it has null value or unset, will be used 30 days, i.e. `2592000` seconds.
+
+Can't has value `0`, because it means that cookie should be removed.
+
 ```groovy
 grails.plugins.cookie.cookieage.default = 360 * 24 * 60 * 60
 ```
 
-Default path for cookie selection strategy.
+### Default Path
+Default path for cookie selection strategy, string.
 * 'context' - web app context path, i.e. `grails.app.context` option in `Config.groovy`
 * 'root' - root of server, i.e. '/'
 * 'current' - current directory, i.e. controller name
+
 If default path is null or unset, it will be used 'context' strategy
+
 ```groovy
 grails.plugins.cookie.path.defaultStrategy = 'context'
 ```
 
+### Default Secure
 Default secure cookie param. Secure cookie available only for HTTPS connections. `Secure` attribute, boolean.
 If default secure is null or unset, it will set all new cookies as secure if current connection is secure
 ```groovy
 grails.plugins.cookie.secure.default = null
 ```
 
-Default HTTP only param that denies accessing to JavaScript's `document.cookie`.
+### Default HTTP Only
+Default HTTP Only param that denies accessing to JavaScript's `document.cookie`.
+
 If null or unset will be `true`
+
 ```groovy
 grails.plugins.cookie.httpOnly.default = true
 ```
+
 You can find details of implementation in [CookieServiceDefaultsSpec](./test/unit/grails/plugin/cookie/CookieServiceDefaultsSpec.groovy).
 
 ## Changelog
