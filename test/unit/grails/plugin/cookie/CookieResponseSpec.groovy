@@ -14,9 +14,11 @@ import javax.servlet.http.HttpServletResponse
 abstract class CookieResponseSpec extends Specification {
     protected HttpServletResponse response = new MockHttpServletResponse()
     protected obj
+    private MockHttpServletRequest request = new MockHttpServletRequest()
 
     def setup() {
-        def mockWebRequest = new GrailsWebRequest(new MockHttpServletRequest(), response, new MockServletContext())
+        request.contextPath = '/ctx'
+        def mockWebRequest = new GrailsWebRequest(request, response, new MockServletContext())
         WebUtils.storeGrailsWebRequest(mockWebRequest)
     }
 
@@ -39,11 +41,11 @@ abstract class CookieResponseSpec extends Specification {
         cookieThatWasSet.httpOnly == httpOnly
         cookieThatWasSet.version == 1
         where:
-        args                                                                   | maxAge  | path    | domain         | secure | httpOnly
-        ['cookie_name', 'cookie_val']                                          | 2592000 | null    | null           | false  | false
-        ['cookie_name', 'cookie_val', 42]                                      | 42      | null    | null           | false  | false
-        ['cookie_name', 'cookie_val', 42, '/path']                             | 42      | '/path' | null           | false  | false
-        ['cookie_name', 'cookie_val', 42, '/path', '.example.com', true, true] | 42      | '/path' | '.example.com' | true   | true
+        args                                                                    | maxAge  | path    | domain         | secure | httpOnly
+        ['cookie_name', 'cookie_val']                                           | 2592000 | '/ctx'  | null           | false  | true
+        ['cookie_name', 'cookie_val', 42]                                       | 42      | '/ctx'  | null           | false  | true
+        ['cookie_name', 'cookie_val', 42, '/path']                              | 42      | '/path' | null           | false  | true
+        ['cookie_name', 'cookie_val', 42, '/path', '.example.com', true, false] | 42      | '/path' | '.example.com' | true   | false
     }
 
     @Unroll
@@ -62,8 +64,8 @@ abstract class CookieResponseSpec extends Specification {
         cookieThatWasSet.version == 1
         where:
         maxAge | expectedMaxAge | path    | expectedPath | domain         | secure | httpOnly
-        null   | 2592000        | null    | null         | null           | false  | false
-        42     | 42             | null    | null         | null           | false  | false
+        null   | 2592000        | '/ctx'  | '/ctx'       | null           | false  | false
+        42     | 42             | '/ctx'  | '/ctx'       | null           | false  | false
         42     | 42             | '/path' | '/path'      | null           | false  | false
         42     | 42             | '/path' | '/path'      | '.example.com' | true   | true
     }
@@ -83,11 +85,11 @@ abstract class CookieResponseSpec extends Specification {
         cookieThatWasSet.httpOnly == httpOnly
         cookieThatWasSet.version == 1
         where:
-        args                                                                                                                        | maxAge  | path    | domain         | secure | httpOnly
-        [name: 'cookie_name', value: 'cookie_val']                                                                                  | 2592000 | null    | null           | false  | false
-        [name: 'cookie_name', value: 'cookie_val', maxAge: 42]                                                                      | 42      | null    | null           | false  | false
-        [name: 'cookie_name', value: 'cookie_val', maxAge: 42, path: '/path']                                                       | 42      | '/path' | null           | false  | false
-        [name: 'cookie_name', value: 'cookie_val', maxAge: 42, path: '/path', domain: '.example.com', secure: true, httpOnly: true] | 42      | '/path' | '.example.com' | true   | true
+        args                                                                                                                         | maxAge  | path    | domain         | secure | httpOnly
+        [name: 'cookie_name', value: 'cookie_val']                                                                                   | 2592000 | '/ctx'  | null           | false  | true
+        [name: 'cookie_name', value: 'cookie_val', maxAge: 42]                                                                       | 42      | '/ctx'  | null           | false  | true
+        [name: 'cookie_name', value: 'cookie_val', maxAge: 42, path: '/path']                                                        | 42      | '/path' | null           | false  | true
+        [name: 'cookie_name', value: 'cookie_val', maxAge: 42, path: '/path', domain: '.example.com', secure: true, httpOnly: false] | 42      | '/path' | '.example.com' | true   | false
     }
 
     @Unroll
@@ -136,7 +138,7 @@ abstract class CookieResponseSpec extends Specification {
         cookieThatWasSet.version == 1
         where:
         args                                     | path    | domain
-        ['cookie_name']                          | null    | null
+        ['cookie_name']                          | '/ctx'  | null
         ['cookie_name', '/path']                 | '/path' | null
         ['cookie_name', '/path', '.example.com'] | '/path' | '.example.com'
     }
@@ -155,7 +157,7 @@ abstract class CookieResponseSpec extends Specification {
         cookieThatWasSet.version == 1
         where:
         path    | pathExpected | domain
-        null    | null         | null
+        null    | '/ctx'       | null
         '/path' | '/path'      | null
         '/path' | '/path'      | '.example.com'
     }
@@ -179,7 +181,7 @@ abstract class CookieResponseSpec extends Specification {
         cookieThatWasSet.version == 1
         where:
         path    | pathExpected | domain
-        null    | null         | null
+        null    | '/ctx'       | null
         '/'     | '/'          | null
         '/path' | '/path'      | null
         '/path' | '/path'      | '.example.com'
