@@ -39,9 +39,7 @@ class CookieServiceDefaultsSpec extends Specification {
     @Unroll
     void "getDefaultCookiePath(): #defaultStrategy #path #expectedPath #comment"() {
         given:
-        if (ctx != null) {
-            service.grailsApplication.config.grails.app.context = ctx
-        }
+        request.contextPath = ctx
         if (defaultStrategy != null) {
             service.grailsApplication.config.grails.plugins.cookie.defaultStrategy = defaultStrategy
         }
@@ -51,7 +49,6 @@ class CookieServiceDefaultsSpec extends Specification {
         ctx    | defaultStrategy | path    | expectedPath | comment
         '/ctx' | null            | null    | '/ctx'       | 'context strategy will used if defaultStrategy not set'
         '/ctx' | 'context'       | null    | '/ctx'       | 'context option will used if not set'
-        null   | 'context'       | null    | '/app'       | 'If grails.app.context is not set'
         null   | 'root'          | null    | '/'          | ''
         null   | 'current'       | null    | null         | ''
         null   | null            | '/path' | '/path'      | ''

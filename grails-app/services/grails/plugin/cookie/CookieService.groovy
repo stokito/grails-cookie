@@ -153,7 +153,7 @@ class CookieService {
         } else if (grailsApplication.config.grails?.plugins?.cookie?.defaultStrategy == 'current') {
             return null
         } else {
-            return grailsApplication.config.grails?.app?.context ?: null
+            return WebUtils.retrieveGrailsWebRequest().currentRequest.contextPath
         }
     }
 
