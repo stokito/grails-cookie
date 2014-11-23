@@ -161,10 +161,10 @@ class CookieService {
     boolean getDefaultCookieSecure(Boolean secure) {
         if (secure != null) {
             return secure
-        } else if (grailsApplication.config.grails?.plugins?.cookie?.secure?.default != null) {
+        } else if (grailsApplication.config.grails?.plugins?.cookie?.secure?.default instanceof Boolean) {
             return grailsApplication.config.grails.plugins.cookie.secure.default
         } else {
-            return WebUtils.retrieveGrailsWebRequest().currentRequest.secure as boolean
+            return WebUtils.retrieveGrailsWebRequest().currentRequest.secure
         }
     }
 
@@ -172,8 +172,8 @@ class CookieService {
     boolean getDefaultCookieHttpOnly(Boolean httpOnly) {
         if (httpOnly != null) {
             return httpOnly
-        } else if (grailsApplication.config.grails?.plugins?.cookie?.httpOnly?.default != null) {
-            return grailsApplication.config.grails.plugins.cookie.httpOnly.default as boolean
+        } else if (grailsApplication.config.grails?.plugins?.cookie?.httpOnly?.default  instanceof Boolean) {
+            return grailsApplication.config.grails.plugins.cookie.httpOnly.default
         } else {
             return COOKIE_DEFAULT_HTTP_ONLY
         }
