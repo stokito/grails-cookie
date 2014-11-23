@@ -10,7 +10,7 @@ It's [RFC 6265](http://tools.ietf.org/html/rfc6265) compliant.
 
 To install the cookie plug-in just add to `BuildConfig.groovy`:
 ```groovy
-compile ':cookie:1.0'
+compile ':cookie:1.0.1'
 ```
 
 ## Configuration
@@ -112,6 +112,11 @@ You can find details of implementation in [CookieServiceDefaultsSpec](./test/uni
 ## Changelog
 
 [All releases](https://github.com/stokito/grails-cookie/releases)
+
+### v1.0.1 Fixed bug with defaults not configured in Config
+[Source](https://github.com/stokito/grails-cookie/releases/tag/v1.0.1)
+
+- [#30](https://github.com/stokito/grails-cookie/issues/30) Default path strategy is 'context' and `grails.app.context` used null instead of actual context
 
 ### v1.0 Production ready version
 [Source](https://github.com/stokito/grails-cookie/releases/tag/v1.0)
