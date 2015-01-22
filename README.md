@@ -122,9 +122,10 @@ The string value will correctly be treated as a boolean.
 
 [All releases](https://github.com/stokito/grails-cookie/releases)
 
-### v1.0.2 Fixed bug with defaults not configured in Config
-[Source](https://github.com/stokito/grails-cookie/releases/tag/v1.0.2)
+### v1.1.0 Fixed bug with defaults not configured in Config
+[Source](https://github.com/stokito/grails-cookie/releases/tag/v1.1.0)
 
+- Minimal Grails version 2.4.0. Plugin probably should work with early versions of Grails but init tests require v2.4.0
 - [#32](https://github.com/stokito/grails-cookie/issues/32) Add ability to externalize configuration by changing check for boolean from `instanceof Boolean` to `toBoolean()` which will correctly address boolean `false` and string `"false"` properties
 
 ### v1.0.1 Fixed bug with defaults not configured in Config
