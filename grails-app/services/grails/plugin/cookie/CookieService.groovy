@@ -19,7 +19,7 @@ import org.codehaus.groovy.grails.web.util.WebUtils
 
 import javax.servlet.http.Cookie
 
-import static CookieUtils.*
+import static grails.plugin.cookie.CookieUtils.*
 
 /**
  * @author <a href='mailto:dale@dalew.com'>Dale Wiggins</a>
@@ -27,6 +27,7 @@ import static CookieUtils.*
  * @author <a href='mailto:donbeave@gmail.com'>Alexey Zhokhov</a>
  */
 class CookieService {
+    @SuppressWarnings("GroovyUnusedDeclaration")
     boolean transactional = false
     def grailsApplication
 
@@ -38,13 +39,8 @@ class CookieService {
     String getCookie(String name) {
         assert name
         String cookieValue = findCookie(name)?.value
-        if (cookieValue != null) {
-            log.info "Found cookie \"${name}\", value = \"${cookieValue}\""
-            return cookieValue
-        } else {
-            log.info "No cookie found with name: \"${name}\""
-            return null
-        }
+        log.info((cookieValue != null) ? "Found cookie \"${name}\", value = \"${cookieValue}\"" : "No cookie found with name: \"${name}\"")
+        cookieValue
     }
 
     /**
@@ -54,13 +50,7 @@ class CookieService {
      */
     Cookie findCookie(String name) {
         assert name
-        def cookies = WebUtils.retrieveGrailsWebRequest().currentRequest.cookies
-        if (!cookies) {
-            return null
-        }
-        // Otherwise, we have to do a linear scan for the cookie.
-        Cookie cookie = cookies.find { it.name == name }
-        return cookie
+        WebUtils.retrieveGrailsWebRequest().currentRequest.cookies?.find { it.name == name }
     }
 
     /**
@@ -74,8 +64,7 @@ class CookieService {
      * @param httpOnly "HTTP Only" cookies are not supposed to be exposed to client-side JavaScript code, and may therefore help mitigate XSS attack.
      */
     Cookie setCookie(String name, String value, Integer maxAge = null, String path = null, String domain = null, Boolean secure = null, Boolean httpOnly = null) {
-        Cookie cookie = createCookie(name, value, maxAge, path, domain, secure, httpOnly)
-        return setCookie(cookie)
+        setCookie(createCookie(name, value, maxAge, path, domain, secure, httpOnly))
     }
 
     /**
@@ -83,8 +72,8 @@ class CookieService {
      * @param args Named params eg <code>[name: 'cookie_name', value: 'some_val', secure: true] </code>
      */
     Cookie setCookie(Map args) {
-        Cookie cookie = createCookie(args.name, args.value, args.maxAge, args.path, args.domain, args.secure, args.httpOnly)
-        return setCookie(cookie)
+        assert args
+        setCookie(createCookie(args.name, args.value, args.maxAge, args.path, args.domain, args.secure, args.httpOnly))
     }
 
     /** Sets the cookie. Note: it doesn't set defaults */
@@ -92,7 +81,6 @@ class CookieService {
         assert cookie
         log.info 'Setting cookie'
         writeCookieToResponse(cookie)
-        return cookie
     }
 
     /** Deletes the named cookie */
@@ -101,12 +89,12 @@ class CookieService {
         log.info 'Removing cookie'
         Cookie cookie = createCookie(name, null, COOKIE_AGE_TO_DELETE, path, domain, null, null)
         writeCookieToResponse(cookie)
-        return cookie
     }
 
     /** Deletes the named cookie */
     Cookie deleteCookie(Cookie cookie) {
-        return deleteCookie(cookie.name, cookie.path, cookie.domain)
+        assert cookie
+        deleteCookie(cookie.name, cookie.path, cookie.domain)
     }
 
     private Cookie createCookie(String name, String value, Integer maxAge, String path, String domain, Boolean secure, Boolean httpOnly) {
@@ -120,12 +108,14 @@ class CookieService {
         cookie.secure = getDefaultCookieSecure(secure)
         cookie.httpOnly = getDefaultCookieHttpOnly(httpOnly)
         cookie.version = 1
-        return cookie
+        cookie
     }
 
-    private void writeCookieToResponse(Cookie cookie) {
+    @SuppressWarnings("GrMethodMayBeStatic")
+    private Cookie writeCookieToResponse(Cookie cookie) {
         WebUtils.retrieveGrailsWebRequest().currentResponse.addCookie(cookie)
         log.info "cookie set: ${cookie.name} = ${cookie.value}, Max-Age: ${cookie.maxAge}, Path: ${cookie.path}, Domain: ${cookie.domain}, HttpOnly: ${cookie.httpOnly}, Secure: ${cookie.secure}"
+        cookie
     }
 
     /**
@@ -135,7 +125,7 @@ class CookieService {
      * Can't has value `0`, because it means that cookie should be removed
      */
     int getDefaultCookieAge(Integer maxAge) {
-        return maxAge != null ? maxAge : (grailsApplication.config.grails?.plugins?.cookie?.cookieage?.default ?: DEFAULT_COOKIE_AGE)
+        maxAge != null ? maxAge : (grailsApplication.config.grails?.plugins?.cookie?.cookieage?.default ?: DEFAULT_COOKIE_AGE)
     }
 
     /*
@@ -145,38 +135,43 @@ class CookieService {
      * 'current' - current directory, i.e. controller name
      * If default path is null or unset, it will be used 'context' strategy
      */
-    String getDefaultCookiePath(String path) {
+
+    String getDefaultCookiePath(String path = '') {
+        String cookiePath
         if (path) {
-            return path
+            cookiePath = path
         } else if (grailsApplication.config.grails?.plugins?.cookie?.defaultStrategy == 'root') {
-            return '/'
+            cookiePath = '/'
         } else if (grailsApplication.config.grails?.plugins?.cookie?.defaultStrategy == 'current') {
-            return null
+            cookiePath = null
         } else {
-            return WebUtils.retrieveGrailsWebRequest().currentRequest.contextPath
+            cookiePath = WebUtils.retrieveGrailsWebRequest().currentRequest.contextPath
         }
+        cookiePath
     }
 
     /** If default secure is null or unset, it will set all new cookies as secure if current connection is secure */
     boolean getDefaultCookieSecure(Boolean secure) {
         if (secure != null) {
             return secure
-        } else if (grailsApplication.config.grails?.plugins?.cookie?.secure?.default instanceof Boolean) {
-            return grailsApplication.config.grails.plugins.cookie.secure.default
-        } else {
-            return WebUtils.retrieveGrailsWebRequest().currentRequest.secure
         }
+
+        def secureConfigValue = grailsApplication.config.grails.plugins.cookie.secure.default
+        return secureConfigValue != null && !(secureConfigValue instanceof ConfigObject) ?
+                secureConfigValue.toString().toBoolean() :
+                WebUtils.retrieveGrailsWebRequest().currentRequest.secure
     }
 
     /** Default HTTP only param that denies accessing to JavaScript's `document.cookie`. If null or unset will be `true` */
     boolean getDefaultCookieHttpOnly(Boolean httpOnly) {
         if (httpOnly != null) {
             return httpOnly
-        } else if (grailsApplication.config.grails?.plugins?.cookie?.httpOnly?.default  instanceof Boolean) {
-            return grailsApplication.config.grails.plugins.cookie.httpOnly.default
-        } else {
-            return COOKIE_DEFAULT_HTTP_ONLY
         }
+
+        def httpOnlyConfigValue = grailsApplication.config.grails.plugins.cookie.httpOnly.default
+        return httpOnlyConfigValue != null && !(httpOnlyConfigValue instanceof ConfigObject) ?
+                httpOnlyConfigValue.toString().toBoolean() :
+                COOKIE_DEFAULT_HTTP_ONLY
     }
 
 }
