@@ -10,7 +10,7 @@ It's [RFC 6265](http://tools.ietf.org/html/rfc6265) compliant.
 
 To install the cookie plug-in just add to `BuildConfig.groovy`:
 ```groovy
-compile ':cookie:1.0.1'
+compile ':cookie:1.1.0'
 ```
 
 ## Configuration
