@@ -155,7 +155,6 @@ class CookieService {
         if (secure != null) {
             return secure
         }
-
         def secureConfigValue = grailsApplication.config.grails.plugins.cookie.secure.default
         return secureConfigValue != null && !(secureConfigValue instanceof ConfigObject) ?
                 secureConfigValue.toString().toBoolean() :
@@ -167,7 +166,6 @@ class CookieService {
         if (httpOnly != null) {
             return httpOnly
         }
-
         def httpOnlyConfigValue = grailsApplication.config.grails.plugins.cookie.httpOnly.default
         return httpOnlyConfigValue != null && !(httpOnlyConfigValue instanceof ConfigObject) ?
                 httpOnlyConfigValue.toString().toBoolean() :
