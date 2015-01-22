@@ -17,7 +17,7 @@
 import grails.plugin.cookie.CookieUtils
 
 class CookieGrailsPlugin {
-    def version = '1.0.1'
+    def version = '1.0.2'
     def grailsVersion = '2.1 > *'
     def author = 'Sergey Ponomarev'
     def authorEmail = 'stokito@gmail.com'
@@ -29,7 +29,8 @@ class CookieGrailsPlugin {
     def developers = [
             [name: 'Dale Wiggins', email: 'dale@dalew.com', role: 'original author'],
             [name: 'Sergey Ponomarev', email: 'stokito@gmail.com', role: 'current maintainer'],
-            [name: 'Alexey Zhokhov', email: 'donbeave@gmail.com']
+            [name: 'Alexey Zhokhov', email: 'donbeave@gmail.com'],
+            [name: 'Christian Oestreich', email: 'acetrike@gmail.com']
     ]
     def issueManagement = [system: 'GITHUB', url: 'https://github.com/stokito/grails-cookie/issues']
     def scm = [url: 'https://github.com/stokito/grails-cookie']

@@ -8,8 +8,8 @@ import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.mock.web.MockServletContext
 import spock.lang.Specification
 import spock.lang.Unroll
-import static grails.plugin.cookie.CookieUtils.COOKIE_DEFAULT_HTTP_ONLY
 
+import static grails.plugin.cookie.CookieUtils.COOKIE_DEFAULT_HTTP_ONLY
 
 @TestFor(CookieService)
 class CookieServiceDefaultsSpec extends Specification {
@@ -71,6 +71,14 @@ class CookieServiceDefaultsSpec extends Specification {
         false         | false         | null   | false          | ''
         false         | null          | null   | false          | ''
         true          | null          | null   | true           | ''
+        false         | 'true'        | null   | true           | ''
+        false         | 'y'           | null   | true           | ''
+        false         | '1'           | null   | true           | ''
+        false         | 'false'       | null   | false          | ''
+        false         | 'no'          | null   | false          | ''
+        false         | '0'           | null   | false          | ''
+        false         | ''            | null   | false          | ''
+        false         | ' '           | null   | false          | ''
     }
 
     @Unroll
@@ -88,5 +96,16 @@ class CookieServiceDefaultsSpec extends Specification {
         true            | null     | true                     | ''
         false           | null     | false                    | ''
         null            | null     | COOKIE_DEFAULT_HTTP_ONLY | ''
+        'true'          | null     | true                     | ''
+        'trUe'          | null     | true                     | ''
+        'false'         | null     | false                    | ''
+        'faLse'         | null     | false                    | ''
+        '1'             | null     | true                     | ''
+        'y'             | null     | true                     | ''
+        'no'            | null     | false                    | ''
+        '0'             | null     | false                    | ''
+        ''              | null     | false                    | ''
+        ' '             | null     | false                    | ''
+
     }
 }

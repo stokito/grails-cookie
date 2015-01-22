@@ -109,9 +109,23 @@ grails.plugins.cookie.httpOnly.default = true
 
 You can find details of implementation in [CookieServiceDefaultsSpec](./test/unit/grails/plugin/cookie/CookieServiceDefaultsSpec.groovy).
 
+### External Config
+If you use property files to inject values to plugins at runtime.  This is now supported as of version 1.0.2.  This means that inside your external `foo.properties` file you can specify the following.
+
+```groovy
+grails.plugins.cookie.httpOnly.default=true
+```
+
+The string value will correctly be treated as a boolean.
+
 ## Changelog
 
 [All releases](https://github.com/stokito/grails-cookie/releases)
+
+### v1.0.2 Fixed bug with defaults not configured in Config
+[Source](https://github.com/stokito/grails-cookie/releases/tag/v1.0.2)
+
+- [#32](https://github.com/stokito/grails-cookie/issues/32) Add ability to externalize configuration by changing check for boolean from `instanceof Boolean` to `toBoolean()` which will correctly address boolean `false` and string `"false"` properties
 
 ### v1.0.1 Fixed bug with defaults not configured in Config
 [Source](https://github.com/stokito/grails-cookie/releases/tag/v1.0.1)
