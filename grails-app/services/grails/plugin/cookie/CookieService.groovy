@@ -145,7 +145,7 @@ class CookieService {
         } else if (grailsApplication.config.grails?.plugins?.cookie?.defaultStrategy == 'current') {
             cookiePath = null
         } else {
-            cookiePath = retrieveGrailsWebRequest().currentRequest.contextPath
+            cookiePath = WebUtils.retrieveGrailsWebRequest().currentRequest.contextPath
         }
         cookiePath
     }
