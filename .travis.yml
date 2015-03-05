@@ -6,4 +6,4 @@ before_script:
 
 script: ./grailsw clean
     && ./grailsw refresh-dependencies
-    && ./grailsw package-plugin
+    && ./grailsw compile
