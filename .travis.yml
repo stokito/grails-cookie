@@ -1,6 +1,6 @@
 language: groovy
 jdk:
- - oraclejdk7
+ - oraclejdk6
 before_script:
     - chmod +x grailsw
 
