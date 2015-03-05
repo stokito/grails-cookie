@@ -126,7 +126,7 @@ class CookieService {
      * Can't has value `0`, because it means that cookie should be removed
      */
     int getDefaultCookieAge(Integer maxAge) {
-        return maxAge != null ? maxAge : (grailsApplication.config.grails?.plugins?.cookie?.cookieage?.default ?: DEFAULT_COOKIE_AGE)
+        return maxAge != null ? maxAge : (grailsApplication.config.grails.plugins.cookie.cookieage.default ?: DEFAULT_COOKIE_AGE)
     }
 
     /*
@@ -140,9 +140,9 @@ class CookieService {
         String cookiePath
         if (path) {
             cookiePath = path
-        } else if (grailsApplication.config.grails?.plugins?.cookie?.defaultStrategy == 'root') {
+        } else if (grailsApplication.config.grails.plugins.cookie.path.defaultStrategy == 'root') {
             cookiePath = '/'
-        } else if (grailsApplication.config.grails?.plugins?.cookie?.defaultStrategy == 'current') {
+        } else if (grailsApplication.config.grails.plugins.cookie.path.defaultStrategy == 'current') {
             cookiePath = null
         } else {
             cookiePath = WebUtils.retrieveGrailsWebRequest().currentRequest.contextPath
