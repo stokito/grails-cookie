@@ -123,7 +123,7 @@ The string value will correctly be treated as a boolean.
 [All releases](https://github.com/stokito/grails-cookie/releases)
 
 ### v1.2 Fixed bug with `path.defaultStrategy` option
-[Source](https://github.com/stokito/grails-cookie/releases/tag/v1.1.1)
+[Source](https://github.com/stokito/grails-cookie/releases/tag/v1.2)
 
 - [#35](https://github.com/stokito/grails-cookie/issues/35) option `grails.plugins.cookie.path.defaultStrategy` doesn't work.
 - Minimal Grails version 2.2.0. But tests of plugin itself will failed. To run them use command `./grailsw test-app` that uses wrapper with Grails 2.4
