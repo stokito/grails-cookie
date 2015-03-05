@@ -10,7 +10,7 @@ It's [RFC 6265](http://tools.ietf.org/html/rfc6265) compliant.
 
 To install the cookie plug-in just add to `BuildConfig.groovy`:
 ```groovy
-compile ':cookie:1.1.1'
+compile ':cookie:1.2'
 ```
 
 ## Configuration
@@ -122,11 +122,11 @@ The string value will correctly be treated as a boolean.
 
 [All releases](https://github.com/stokito/grails-cookie/releases)
 
-### v1.1.1 Fixed bug with `path.defaultStrategy` option
+### v1.2 Fixed bug with `path.defaultStrategy` option
 [Source](https://github.com/stokito/grails-cookie/releases/tag/v1.1.1)
 
 - [#35](https://github.com/stokito/grails-cookie/issues/35) option `grails.plugins.cookie.path.defaultStrategy` doesn't work.
-- Minimal Grails version 2.2.0. Bit tests of plugin itself will failed. To run them use command `./grailsw test-app` that uses wrapper with Grails 2.4
+- Minimal Grails version 2.2.0. But tests of plugin itself will failed. To run them use command `./grailsw test-app` that uses wrapper with Grails 2.4
 - Minimal Java version is downgraded to 6
 
 ### v1.1.0 Fixed bug with defaults not configured in Config

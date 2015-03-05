@@ -17,7 +17,7 @@
 import grails.plugin.cookie.CookieUtils
 
 class CookieGrailsPlugin {
-    def version = '1.1.1'
+    def version = '1.2'
     def grailsVersion = '2.2.0 > *'
     def author = 'Sergey Ponomarev'
     def authorEmail = 'stokito@gmail.com'
