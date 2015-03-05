@@ -41,7 +41,7 @@ class CookieServiceDefaultsSpec extends Specification {
         given:
         request.contextPath = ctx
         if (defaultStrategy != null) {
-            service.grailsApplication.config.grails.plugins.cookie.defaultStrategy = defaultStrategy
+            service.grailsApplication.config.grails.plugins.cookie.path.defaultStrategy = defaultStrategy
         }
         expect:
         service.getDefaultCookiePath(path) == expectedPath
