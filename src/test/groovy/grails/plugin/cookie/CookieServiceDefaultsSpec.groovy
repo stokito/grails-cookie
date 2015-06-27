@@ -1,15 +1,13 @@
 package grails.plugin.cookie
 
 import grails.test.mixin.TestFor
-import org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest
-import org.codehaus.groovy.grails.web.util.WebUtils
+import org.grails.web.servlet.mvc.GrailsWebRequest
+import org.grails.web.util.WebUtils
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.mock.web.MockServletContext
 import spock.lang.Specification
 import spock.lang.Unroll
-
-import static grails.plugin.cookie.CookieUtils.COOKIE_DEFAULT_HTTP_ONLY
 
 @TestFor(CookieService)
 class CookieServiceDefaultsSpec extends Specification {
@@ -19,6 +17,12 @@ class CookieServiceDefaultsSpec extends Specification {
         service.grailsApplication.config.grails.plugins.cookie = new ConfigObject()
         def mockWebRequest = new GrailsWebRequest(request, new MockHttpServletResponse(), new MockServletContext())
         WebUtils.storeGrailsWebRequest(mockWebRequest)
+    }
+
+    def cleanup() {
+        service.grailsApplication.config.grails.plugins.cookie.cookieage.default = null
+        service.grailsApplication.config.grails.plugins.cookie.httpOnly.default = null
+        service.grailsApplication.config.grails.plugins.cookie.secure.default = null
     }
 
     @Unroll
@@ -90,22 +94,22 @@ class CookieServiceDefaultsSpec extends Specification {
         expect:
         service.getDefaultCookieHttpOnly(httpOnly) == expectedHttpOnly
         where:
-        defaultHttpOnly | httpOnly | expectedHttpOnly         | comment
-        null            | true     | true                     | ''
-        null            | false    | false                    | ''
-        true            | null     | true                     | ''
-        false           | null     | false                    | ''
-        null            | null     | COOKIE_DEFAULT_HTTP_ONLY | ''
-        'true'          | null     | true                     | ''
-        'trUe'          | null     | true                     | ''
-        'false'         | null     | false                    | ''
-        'faLse'         | null     | false                    | ''
-        '1'             | null     | true                     | ''
-        'y'             | null     | true                     | ''
-        'no'            | null     | false                    | ''
-        '0'             | null     | false                    | ''
-        ''              | null     | false                    | ''
-        ' '             | null     | false                    | ''
+        defaultHttpOnly | httpOnly | expectedHttpOnly                     | comment
+        null            | true     | true                                 | ''
+        null            | false    | false                                | ''
+        true            | null     | true                                 | ''
+        false           | null     | false                                | ''
+        null            | null     | CookieUtils.COOKIE_DEFAULT_HTTP_ONLY | ''
+        'true'          | null     | true                                 | ''
+        'trUe'          | null     | true                                 | ''
+        'false'         | null     | false                                | ''
+        'faLse'         | null     | false                                | ''
+        '1'             | null     | true                                 | ''
+        'y'             | null     | true                                 | ''
+        'no'            | null     | false                                | ''
+        '0'             | null     | false                                | ''
+        ''              | null     | false                                | ''
+        ' '             | null     | false                                | ''
 
     }
 }

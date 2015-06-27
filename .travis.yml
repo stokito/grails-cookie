@@ -4,6 +4,5 @@ jdk:
 before_script:
     - chmod +x grailsw
 
-script: ./grailsw clean
-    && ./grailsw refresh-dependencies
-    && ./grailsw test-app
+script: rm -rf *.zip
+        ./gradlew clean test assemble
