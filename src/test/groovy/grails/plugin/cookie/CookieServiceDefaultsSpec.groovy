@@ -9,6 +9,8 @@ import org.springframework.mock.web.MockServletContext
 import spock.lang.Specification
 import spock.lang.Unroll
 
+import static grails.plugin.cookie.CookieUtils.COOKIE_DEFAULT_HTTP_ONLY
+
 @TestFor(CookieService)
 class CookieServiceDefaultsSpec extends Specification {
     def request = new MockHttpServletRequest()
@@ -94,22 +96,21 @@ class CookieServiceDefaultsSpec extends Specification {
         expect:
         service.getDefaultCookieHttpOnly(httpOnly) == expectedHttpOnly
         where:
-        defaultHttpOnly | httpOnly | expectedHttpOnly                     | comment
-        null            | true     | true                                 | ''
-        null            | false    | false                                | ''
-        true            | null     | true                                 | ''
-        false           | null     | false                                | ''
-        null            | null     | CookieUtils.COOKIE_DEFAULT_HTTP_ONLY | ''
-        'true'          | null     | true                                 | ''
-        'trUe'          | null     | true                                 | ''
-        'false'         | null     | false                                | ''
-        'faLse'         | null     | false                                | ''
-        '1'             | null     | true                                 | ''
-        'y'             | null     | true                                 | ''
-        'no'            | null     | false                                | ''
-        '0'             | null     | false                                | ''
-        ''              | null     | false                                | ''
-        ' '             | null     | false                                | ''
-
+        defaultHttpOnly | httpOnly | expectedHttpOnly         | comment
+        null            | true     | true                     | ''
+        null            | false    | false                    | ''
+        true            | null     | true                     | ''
+        false           | null     | false                    | ''
+        null            | null     | COOKIE_DEFAULT_HTTP_ONLY | ''
+        'true'          | null     | true                     | ''
+        'trUe'          | null     | true                     | ''
+        'false'         | null     | false                    | ''
+        'faLse'         | null     | false                    | ''
+        '1'             | null     | true                     | ''
+        'y'             | null     | true                     | ''
+        'no'            | null     | false                    | ''
+        '0'             | null     | false                    | ''
+        ''              | null     | false                    | ''
+        ' '             | null     | false                    | ''
     }
 }
