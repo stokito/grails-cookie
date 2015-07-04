@@ -15,7 +15,7 @@
  */
 package grails.plugin.cookie
 
-import org.grails.web.util.WebUtils
+import grails.web.api.ServletAttributes
 
 import javax.servlet.http.Cookie
 
@@ -24,7 +24,7 @@ import javax.servlet.http.Cookie
  * @author <a href='mailto:stokito@gmail.com'>Sergey Ponomarev</a>
  * @author <a href='mailto:donbeave@gmail.com'>Alexey Zhokhov</a>
  */
-class CookieService {
+class CookieService implements ServletAttributes {
 
     /** 30 days in seconds */
     static final int DEFAULT_COOKIE_AGE = 30 * 24 * 60 * 60
@@ -33,7 +33,6 @@ class CookieService {
 
     @SuppressWarnings("GroovyUnusedDeclaration")
     boolean transactional = false
-    def grailsApplication
 
     /**
      * Gets the value of the named cookie.
@@ -54,7 +53,7 @@ class CookieService {
      */
     Cookie findCookie(String name) {
         assert name
-        return WebUtils.retrieveGrailsWebRequest().currentRequest.cookies?.find { it.name == name }
+        return request.cookies?.find { it.name == name }
     }
 
     /**
@@ -119,7 +118,7 @@ class CookieService {
 
     @SuppressWarnings("GrMethodMayBeStatic")
     private void writeCookieToResponse(Cookie cookie) {
-        WebUtils.retrieveGrailsWebRequest().currentResponse.addCookie(cookie)
+        response.addCookie(cookie)
         log.info "cookie set: ${cookie.name} = ${cookie.value}, Max-Age: ${cookie.maxAge}, Path: ${cookie.path}, Domain: ${cookie.domain}, HttpOnly: ${cookie.httpOnly}, Secure: ${cookie.secure}"
     }
 
@@ -149,7 +148,7 @@ class CookieService {
         } else if (grailsApplication.config.grails.plugins.cookie.path.defaultStrategy == 'current') {
             cookiePath = null
         } else {
-            cookiePath = WebUtils.retrieveGrailsWebRequest().currentRequest.contextPath
+            cookiePath = request.contextPath
         }
         return cookiePath
     }
@@ -162,7 +161,7 @@ class CookieService {
         def secureConfigValue = grailsApplication.config.grails.plugins.cookie.secure.default
         return secureConfigValue?.toString() != null && !(secureConfigValue instanceof ConfigObject) ?
                 secureConfigValue.toString().toBoolean() :
-                WebUtils.retrieveGrailsWebRequest().currentRequest.secure
+                request.secure
     }
 
     /** Default HTTP only param that denies accessing to JavaScript's `document.cookie`. If null or unset will be `true` */
