@@ -60,7 +60,7 @@ cookieService.deleteCookie('username')
 
 All this methods has other signatures and you can find all of them in [CookieService](./grails-app/services/grails/plugin/cookie/CookieService.groovy) JavaDoc's.
 
-You can check out [Demo project](https://github.com/stokito/grails-cookie-demo) and also you can find details of implementation in [CookieRequestSpec](./test/unit/grails/plugin/cookie/CookieRequestSpec.groovy) and [CookieResponseSpec](./test/unit/grails/plugin/cookie/CookieResponseSpec.groovy).
+You can check out [Demo project](https://github.com/stokito/grails-cookie-demo) and also you can find details of implementation in [CookieRequestSpec](./src/test/groovy/grails/plugin/cookie/CookieRequestSpec.groovy) and [CookieResponseSpec](./src/test/groovy/grails/plugin/cookie/CookieResponseSpec.groovy).
 
 ## Configuration
 
@@ -107,7 +107,7 @@ If null or unset will be `true`
 grails.plugins.cookie.httpOnly.default = true
 ```
 
-You can find details of implementation in [CookieServiceDefaultsSpec](./test/unit/grails/plugin/cookie/CookieServiceDefaultsSpec.groovy).
+You can find details of implementation in [CookieServiceDefaultsSpec](./src/test/groovy/grails/plugin/cookie/CookieServiceDefaultsSpec.groovy).
 
 ### External Config
 If you use property files to inject values to plugins at runtime.  This is now supported as of version 1.0.2.  This means that inside your external `foo.properties` file you can specify the following.
