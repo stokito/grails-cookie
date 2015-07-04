@@ -1,11 +1,7 @@
 package grails.plugin.cookie
 
 import grails.test.mixin.TestFor
-import org.grails.web.servlet.mvc.GrailsWebRequest
-import org.grails.web.util.WebUtils
-import org.springframework.mock.web.MockHttpServletRequest
-import org.springframework.mock.web.MockHttpServletResponse
-import org.springframework.mock.web.MockServletContext
+import grails.util.GrailsWebMockUtil
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -13,12 +9,9 @@ import static grails.plugin.cookie.CookieService.COOKIE_DEFAULT_HTTP_ONLY
 
 @TestFor(CookieService)
 class CookieServiceDefaultsSpec extends Specification {
-    def request = new MockHttpServletRequest()
 
-    def setup() {
-        service.grailsApplication.config.grails.plugins.cookie = new ConfigObject()
-        def mockWebRequest = new GrailsWebRequest(request, new MockHttpServletResponse(), new MockServletContext())
-        WebUtils.storeGrailsWebRequest(mockWebRequest)
+    def setupSpec() {
+        GrailsWebMockUtil.bindMockWebRequest()
     }
 
     def cleanup() {
@@ -45,7 +38,7 @@ class CookieServiceDefaultsSpec extends Specification {
     @Unroll
     void "getDefaultCookiePath(): #defaultStrategy #path #expectedPath #comment"() {
         given:
-        request.contextPath = ctx
+        service.request.contextPath = ctx
         if (defaultStrategy != null) {
             service.grailsApplication.config.grails.plugins.cookie.path.defaultStrategy = defaultStrategy
         }
@@ -63,7 +56,7 @@ class CookieServiceDefaultsSpec extends Specification {
     @Unroll
     void "getDefaultCookieSecure(): #requestSecure #defaultSecure #secure #expectedSecure #comment"() {
         given:
-        request.secure = requestSecure
+        service.request.secure = requestSecure
         if (defaultSecure != null) {
             service.grailsApplication.config.grails.plugins.cookie.secure.default = defaultSecure
         }
