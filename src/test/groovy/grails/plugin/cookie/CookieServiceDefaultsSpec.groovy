@@ -9,7 +9,7 @@ import org.springframework.mock.web.MockServletContext
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static grails.plugin.cookie.CookieUtils.COOKIE_DEFAULT_HTTP_ONLY
+import static grails.plugin.cookie.CookieService.COOKIE_DEFAULT_HTTP_ONLY
 
 @TestFor(CookieService)
 class CookieServiceDefaultsSpec extends Specification {

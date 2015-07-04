@@ -1,5 +1,4 @@
-import grails.plugin.cookie.CookieUtils
-import grails.plugins.*
+import grails.plugins.Plugin
 
 class GrailsCookieGrailsPlugin extends Plugin {
     def grailsVersion = "3.0.0 > *"
@@ -19,8 +18,4 @@ class GrailsCookieGrailsPlugin extends Plugin {
     ]
     def issueManagement = [system: 'GITHUB', url: 'https://github.com/stokito/grails-cookie/issues']
     def scm = [url: 'https://github.com/stokito/grails-cookie']
-
-    def doWithDynamicMethods = { applicationContext ->
-        CookieUtils.extendReqResp()
-    }
 }

@@ -19,14 +19,18 @@ import org.grails.web.util.WebUtils
 
 import javax.servlet.http.Cookie
 
-import static grails.plugin.cookie.CookieUtils.*
-
 /**
  * @author <a href='mailto:dale@dalew.com'>Dale Wiggins</a>
  * @author <a href='mailto:stokito@gmail.com'>Sergey Ponomarev</a>
  * @author <a href='mailto:donbeave@gmail.com'>Alexey Zhokhov</a>
  */
 class CookieService {
+
+    /** 30 days in seconds */
+    static final int DEFAULT_COOKIE_AGE = 30 * 24 * 60 * 60
+    static final boolean COOKIE_DEFAULT_HTTP_ONLY = true
+    static final int COOKIE_AGE_TO_DELETE = 0
+
     @SuppressWarnings("GroovyUnusedDeclaration")
     boolean transactional = false
     def grailsApplication
