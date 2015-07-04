@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse
 
 @Commons
 class RequestResponseCookieExtension {
-    /** 30 days in seconds */
+
     static final int COOKIE_AGE_TO_DELETE = 0
 
     private static final helper = new CookieHelper()

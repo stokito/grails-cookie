@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse
 @Commons
 class CookieHelper implements ServletAttributes, WebAttributes {
 
+    /** 30 days in seconds */
     static final int DEFAULT_COOKIE_AGE = 30 * 24 * 60 * 60
     static final boolean COOKIE_DEFAULT_HTTP_ONLY = true
 
