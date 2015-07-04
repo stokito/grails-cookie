@@ -20,7 +20,7 @@ class GrailsCookieGrailsPlugin extends Plugin {
     def issueManagement = [system: 'GITHUB', url: 'https://github.com/stokito/grails-cookie/issues']
     def scm = [url: 'https://github.com/stokito/grails-cookie']
 
-    def doWithDynamicMethods = { applicationContext ->
+    void doWithDynamicMethods() {
         CookieUtils.extendReqResp()
     }
 }
