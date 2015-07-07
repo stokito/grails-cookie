@@ -26,11 +26,6 @@ import javax.servlet.http.Cookie
  */
 class CookieService implements ServletAttributes {
 
-    /** 30 days in seconds */
-    static final int DEFAULT_COOKIE_AGE = 30 * 24 * 60 * 60
-    static final boolean COOKIE_DEFAULT_HTTP_ONLY = true
-    static final int COOKIE_AGE_TO_DELETE = 0
-
     @SuppressWarnings("GroovyUnusedDeclaration")
     boolean transactional = false
 
@@ -40,10 +35,7 @@ class CookieService implements ServletAttributes {
      * @return Returns cookie value or null if cookie does not exist
      */
     String getCookie(String name) {
-        assert name
-        String cookieValue = findCookie(name)?.value
-        log.info(cookieValue ? "Found cookie \"${name}\", value = \"${cookieValue}\"" : "No cookie found with name: \"${name}\"")
-        return cookieValue
+        request.getCookie name
     }
 
     /**
@@ -52,8 +44,7 @@ class CookieService implements ServletAttributes {
      * @return null if cookie not found
      */
     Cookie findCookie(String name) {
-        assert name
-        return request.cookies?.find { it.name == name }
+        request.findCookie name
     }
 
     /**
@@ -67,7 +58,7 @@ class CookieService implements ServletAttributes {
      * @param httpOnly "HTTP Only" cookies are not supposed to be exposed to client-side JavaScript code, and may therefore help mitigate XSS attack.
      */
     Cookie setCookie(String name, String value, Integer maxAge = null, String path = null, String domain = null, Boolean secure = null, Boolean httpOnly = null) {
-        return setCookie(createCookie(name, value, maxAge, path, domain, secure, httpOnly))
+        response.setCookie name, value, maxAge, path, domain, secure, httpOnly
     }
 
     /**
@@ -76,103 +67,23 @@ class CookieService implements ServletAttributes {
      */
     Cookie setCookie(Map args) {
         assert args
-        return setCookie(createCookie(args.name, args.value, args.maxAge, args.path, args.domain, args.secure, args.httpOnly))
+        response.setCookie args.name, args.value, args.maxAge, args.path, args.domain, args.secure, args.httpOnly
     }
 
     /** Sets the cookie. Note: it doesn't set defaults */
     Cookie setCookie(Cookie cookie) {
-        assert cookie
-        log.info 'Setting cookie'
-        writeCookieToResponse(cookie)
-        return cookie
+        response.setCookie cookie
     }
 
     /** Deletes the named cookie */
     Cookie deleteCookie(String name, String path = null, String domain = null) {
         assert name
-        log.info 'Removing cookie'
-        Cookie cookie = createCookie(name, null, COOKIE_AGE_TO_DELETE, path, domain, null, null)
-        writeCookieToResponse(cookie)
-        return cookie
+        response.deleteCookie name, path, domain
     }
 
     /** Deletes the named cookie */
     Cookie deleteCookie(Cookie cookie) {
         assert cookie
-        return deleteCookie(cookie.name, cookie.path, cookie.domain)
+        response.deleteCookie cookie
     }
-
-    private Cookie createCookie(String name, String value, Integer maxAge, String path, String domain, Boolean secure, Boolean httpOnly) {
-        Cookie cookie = new Cookie(name, value)
-        cookie.path = getDefaultCookiePath(path)
-        cookie.maxAge = getDefaultCookieAge(maxAge)
-        // Cookie.setDomain() tries to lowercase domain name and trow NPE if domain is null
-        if (domain) {
-            cookie.domain = domain
-        }
-        cookie.secure = getDefaultCookieSecure(secure)
-        cookie.httpOnly = getDefaultCookieHttpOnly(httpOnly)
-        cookie.version = 1
-        return cookie
-    }
-
-    @SuppressWarnings("GrMethodMayBeStatic")
-    private void writeCookieToResponse(Cookie cookie) {
-        response.addCookie(cookie)
-        log.info "cookie set: ${cookie.name} = ${cookie.value}, Max-Age: ${cookie.maxAge}, Path: ${cookie.path}, Domain: ${cookie.domain}, HttpOnly: ${cookie.httpOnly}, Secure: ${cookie.secure}"
-    }
-
-    /**
-     * Default expiration age for cookie in seconds. `Max-Age` attribute, integer
-     * If it has value `-1` cookie will not stored and removed after browser close.
-     * If it has null value or unset, will be used 30 days, i.e. `2592000` seconds
-     * Can't has value `0`, because it means that cookie should be removed
-     */
-    int getDefaultCookieAge(Integer maxAge) {
-        return maxAge != null ? maxAge : (grailsApplication.config.grails.plugins.cookie.cookieage.default ?: DEFAULT_COOKIE_AGE)
-    }
-
-    /*
-     * Default path for cookie selection strategy.
-     * 'context' - web app context path, i.e. `grails.app.context` option in `Config.groovy`
-     * 'root' - root of server, i.e. '/'
-     * 'current' - current directory, i.e. controller name
-     * If default path is null or unset, it will be used 'context' strategy
-     */
-    String getDefaultCookiePath(String path) {
-        String cookiePath
-        if (path) {
-            cookiePath = path
-        } else if (grailsApplication.config.grails.plugins.cookie.path.defaultStrategy == 'root') {
-            cookiePath = '/'
-        } else if (grailsApplication.config.grails.plugins.cookie.path.defaultStrategy == 'current') {
-            cookiePath = null
-        } else {
-            cookiePath = request.contextPath
-        }
-        return cookiePath
-    }
-
-    /** If default secure is null or unset, it will set all new cookies as secure if current connection is secure */
-    boolean getDefaultCookieSecure(Boolean secure) {
-        if (secure != null) {
-            return secure
-        }
-        def secureConfigValue = grailsApplication.config.grails.plugins.cookie.secure.default
-        return secureConfigValue?.toString() != null && !(secureConfigValue instanceof ConfigObject) ?
-                secureConfigValue.toString().toBoolean() :
-                request.secure
-    }
-
-    /** Default HTTP only param that denies accessing to JavaScript's `document.cookie`. If null or unset will be `true` */
-    boolean getDefaultCookieHttpOnly(Boolean httpOnly) {
-        if (httpOnly != null) {
-            return httpOnly
-        }
-        def httpOnlyConfigValue = grailsApplication.config.grails.plugins.cookie.httpOnly.default
-        return httpOnlyConfigValue?.toString() != null && !(httpOnlyConfigValue instanceof ConfigObject) ?
-                httpOnlyConfigValue.toString().toBoolean() :
-                COOKIE_DEFAULT_HTTP_ONLY
-    }
-
 }
