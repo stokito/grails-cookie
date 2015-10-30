@@ -1,7 +1,7 @@
 language: groovy
 jdk:
     - openjdk7
-    - openjdk8
+    - oraclejdk8
 
 script: rm -rf *.zip
         ./gradlew clean test assemble
