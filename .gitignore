@@ -13,3 +13,6 @@ plugin.xml
 *.sha1
 .idea
 *.iml
+.directory
+build/
+.gradle/
