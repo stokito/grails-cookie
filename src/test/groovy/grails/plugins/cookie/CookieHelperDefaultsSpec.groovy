@@ -1,12 +1,25 @@
-package grails.plugin.cookie
+/*
+ * Copyright 2015 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package grails.plugins.cookie
 
 import grails.test.mixin.TestMixin
 import grails.test.mixin.support.GrailsUnitTestMixin
 import grails.util.GrailsWebMockUtil
 import spock.lang.Specification
 import spock.lang.Unroll
-
-import static grails.plugin.cookie.CookieHelper.COOKIE_DEFAULT_HTTP_ONLY
 
 @TestMixin(GrailsUnitTestMixin)
 class CookieHelperDefaultsSpec extends Specification {
@@ -92,19 +105,19 @@ class CookieHelperDefaultsSpec extends Specification {
         expect:
         helper.getDefaultCookieHttpOnly(httpOnly) == expectedHttpOnly
         where:
-        defaultHttpOnly | httpOnly | expectedHttpOnly         | comment
-        null            | true     | true                     | ''
-        null            | false    | false                    | ''
-        true            | null     | true                     | ''
-        false           | null     | false                    | ''
-        null            | null     | COOKIE_DEFAULT_HTTP_ONLY | ''
-        'true'          | null     | true                     | ''
-        'trUe'          | null     | true                     | ''
-        'false'         | null     | false                    | ''
-        'faLse'         | null     | false                    | ''
-        '1'             | null     | true                     | ''
-        'y'             | null     | true                     | ''
-        'no'            | null     | false                    | ''
+        defaultHttpOnly | httpOnly | expectedHttpOnly                      | comment
+        null            | true     | true                                  | ''
+        null            | false    | false                                 | ''
+        true            | null     | true                                  | ''
+        false           | null     | false                                 | ''
+        null            | null     | CookieHelper.COOKIE_DEFAULT_HTTP_ONLY | ''
+        'true'          | null     | true                                  | ''
+        'trUe'          | null     | true                                  | ''
+        'false'         | null     | false                                 | ''
+        'faLse'         | null     | false                                 | ''
+        '1'             | null     | true                                  | ''
+        'y'             | null     | true                                  | ''
+        'no'            | null     | false                                 | ''
         '0'             | null     | false                    | ''
         ''              | null     | false                    | ''
         ' '             | null     | false                    | ''
