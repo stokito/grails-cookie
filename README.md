@@ -1,5 +1,7 @@
 # Grails Cookie Plugin
 
+*WARNING! Project moved https://github.com/Grails-Plugin-Consortium/grails-cookie*
+
 [![Build Status](https://travis-ci.org/stokito/grails-cookie.png?branch=master)](https://travis-ci.org/stokito/grails-cookie)
 
 This plugin makes dealing with cookies easy. Provides an injectable service and tag to easily get, set, and delete cookies with one line.
