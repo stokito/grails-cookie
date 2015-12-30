@@ -1,0 +1,15 @@
+machine:
+  java:
+    version: oraclejdk8
+  services:
+    - docker
+
+test:
+  override:
+    - echo "skip tests"
+
+deployment:
+  prod:
+    branch: master
+    commands:
+      - ./build.sh
