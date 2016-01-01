@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+export TERM="dumb"
 
 printf "\n> \e[1;37mBuilding grails-cookie\e[0m\n"
 
