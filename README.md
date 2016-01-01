@@ -1,6 +1,7 @@
-# Grails Cookie Plugin
+Grails Cookie Plugin
+==================
 
-[![Build Status](https://travis-ci.org/stokito/grails-cookie.png?branch=master)](https://travis-ci.org/stokito/grails-cookie)
+[![Build Status](https://circleci.com/gh/donbeave/grails-cookie.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/donbeave/grails-cookie)
 
 This plugin makes dealing with cookies easy. Provides an injectable service and tag to easily get, set, and delete cookies with one line.
 
